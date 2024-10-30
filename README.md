@@ -8,4 +8,8 @@ Quizzer is a web-based platform designed for teachers and students at Haaga Heli
 
 - Chen Shiyang, [GitHub Profile](https://github.com/ChenFangFangFang)
 - Emad Yazdankhah, [Github Profile](https://github.com/emaDBytes)
-- Leon Mbishibishi, [Github Profile] (https://github.com/mbishibishi11)
+- Leon Mbishibishi, [Github Profile](https://github.com/mbishibishi11)
+
+## Backlog
+
+[Backlog](https://github.com/orgs/unicornteam2024/projects/1/views/1)
