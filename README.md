@@ -12,4 +12,4 @@ Quizzer is a web-based platform designed for teachers and students at Haaga Heli
 
 ## Backlog
 
-[Backlog](https://github.com/orgs/unicornteam2024/projects/1/views/1)
+Here is the link to the [Backlog](https://github.com/orgs/unicornteam2024/projects/1/views/1)
