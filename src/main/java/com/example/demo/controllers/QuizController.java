@@ -24,6 +24,6 @@ public class QuizController {
     public String createQuiz(Quiz quiz) {
         quizService.createQuiz(quiz);
         System.out.println("Quiz Added: Title = " + quiz.getTitle() + ", Description = " + quiz.getDescription() + ", Status = " + quiz.getStatus());
-        return "redirect:/add-quiz"; // Redirect to the form or another page after submission
+        return "redirect:/add-quiz";
     }
 }
