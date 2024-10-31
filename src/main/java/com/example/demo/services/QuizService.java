@@ -20,7 +20,6 @@ public class QuizService {
             throw new IllegalArgumentException("Quiz description cannot be empty");
         }
 
-        // Save the quiz and return it
         return quizRepository.save(quiz);
     }
 }
