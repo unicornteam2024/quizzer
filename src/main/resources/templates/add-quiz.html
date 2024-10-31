@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Quiz</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Add a New Quiz</h1>
+        <form th:action="@{/quizzes}" th:object="${quiz}" method="post" class="needs-validation">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" id="title" th:field="*{title}" class="form-control" required>
+                <div class="invalid-feedback">Please provide a title for the quiz.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" id="description" th:field="*{description}" class="form-control" required>
+                <div class="invalid-feedback">Please provide a description for the quiz.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select id="status" th:field="*{status}" class="form-select form-control" required>
+                    <option value="Draft" selected>Draft</option>
+                    <option value="Published">Published</option>
+                </select>
+                <div class="invalid-feedback">Please select the status for the quiz.</div>
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-primary">Add Quiz</button>
+        </form>
+    </div>
+
+    <script>
+
+        // Bootstrap form validation script
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var forms = document.getElementsByClassName('needs-validation');
+                Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+</body>
+</html>
