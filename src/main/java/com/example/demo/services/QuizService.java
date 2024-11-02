@@ -22,4 +22,21 @@ public class QuizService {
 
         return quizRepository.save(quiz);
     }
+
+
+    public void deleteQuiz(Long id) {
+        // Check if quiz exists before attempting to delete
+        if (!quizRepository.existsById(id)) {
+            throw new IllegalArgumentException("Quiz not found with id: " + id);
+        }
+        
+        try {
+            quizRepository.deleteById(id);
+        } catch (Exception e) {
+            // Log the error (in a real application, use a proper logging framework)
+            System.err.println("Error deleting quiz with id: " + id);
+            throw new RuntimeException("Failed to delete quiz", e);
+        }
+    }
+
 }
