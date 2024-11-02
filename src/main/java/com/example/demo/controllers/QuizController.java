@@ -6,14 +6,11 @@ import com.example.demo.services.QuizService;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class QuizController {
@@ -35,19 +32,21 @@ public class QuizController {
         return "redirect:/add-quiz";
     }
 
-    @DeleteMapping("/quizzes/{id}")
-    @ResponseBody // Return the response body directly (tells Spring to write the return value
-                  // directly to the response body)
-    public ResponseEntity<?> deleteQuiz(@PathVariable Long id) { // Extracts the quiz ID from the URL
+    /**
+     * Handles POST requests to delete a quiz with the specified ID.
+     * Deletes the quiz and redirects back to the quiz list.
+     *
+     * @param id the ID of the quiz to delete
+     * @return redirect to the quiz list page
+     */
+    @PostMapping("/quizzes/delete/{id}")
+    public String deleteQuiz(@PathVariable Long id) {
         try {
             quizService.deleteQuiz(id);
-            return ResponseEntity.noContent().build(); // 204 No Content
-        } catch (IllegalArgumentException e) {
-            // This will be thrown by the service if quiz is not found
-            return ResponseEntity.notFound().build(); // 404 Not Found
+            return "redirect:/quizzes";
         } catch (Exception e) {
-            // Handle any other unexpected errors
-            return ResponseEntity.internalServerError().build(); // 500 Internal Server Error
+            // You might want to add error handling here
+            return "redirect:/quizzes";
         }
     }
 
