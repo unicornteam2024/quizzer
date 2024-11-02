@@ -2,6 +2,9 @@ package com.example.demo.services;
 
 import com.example.demo.entities.Quiz;
 import com.example.demo.repositories.QuizRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,10 @@ public class QuizService {
         }
 
         return quizRepository.save(quiz);
+    }
+
+    public List<Quiz> getAllQuizzes() {
+        return quizRepository.findAll();
     }
 
 
