@@ -36,8 +36,10 @@ build/
 # Ignore all database files in the data directory
 # This includes:
 # - *.db: All database files
+# - *.mv.db: H2 database files
 # - *.lock.db: Lock files for databases
 # - *.trace.db: Trace files for databases
 data/*.db
+data/*.mv.db
 data/*.lock.db
 data/*.trace.db
