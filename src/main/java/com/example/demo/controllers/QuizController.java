@@ -60,7 +60,7 @@ public class QuizController {
      * @return the name of the view template "list-quizzes" that displays the quiz
      *         list
      */
-    @GetMapping("/quizzes")
+    @GetMapping({"/", "/quizzes"})
     public String listQuizzes(Model model) {
         List<Quiz> quizzes = quizService.getAllQuizzes();
         model.addAttribute("quizzes", quizzes);

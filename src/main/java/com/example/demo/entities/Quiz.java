@@ -1,12 +1,15 @@
 package com.example.demo.entities;
  
 import java.time.LocalDateTime;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 
 @Entity
@@ -23,6 +26,8 @@ public class Quiz {
     @Column(name = "created_date", updatable = false)
     private LocalDateTime createdDate;
 
+
+
     // Default constructor
     public Quiz() {
         this.createdDate = LocalDateTime.now();
@@ -35,6 +40,10 @@ public class Quiz {
         this.status = status;
         this.createdDate = LocalDateTime.now();
     }
+
+    //Creating relationship to the question entity
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    private List<Question> questions;
 
     // Getters and Setters
     public Long getId() {
