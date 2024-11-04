@@ -40,7 +40,7 @@ public class QuizService {
         try {
             quizRepository.deleteById(id);
         } catch (Exception e) {
-            // Log the error (in a real application, use a proper logging framework)
+            // Log the error
             System.err.println("Error deleting quiz with id: " + id);
             throw new RuntimeException("Failed to delete quiz", e);
         }
