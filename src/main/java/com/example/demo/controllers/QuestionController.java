@@ -27,11 +27,11 @@ public class QuestionController {
     @RequestMapping(value = "/quiz/{id}", method = RequestMethod.GET)
     public String viewQuestion(@PathVariable("id") Long id, Model model) {
         Quiz quiz = repository.findById(id).orElse(null);
-        List<Question> questions =  qrepository.findByQuizId(id);
-
+        List<Question> questions = qrepository.findByQuizId(id);
+    
         model.addAttribute("quiz", quiz);
-    	model.addAttribute("question", questions);
-    	return "questions";
+        model.addAttribute("questions", questions);
+        return "questions";
     }
 
     @RequestMapping(value = "/add-question/{id}", method = RequestMethod.GET)
