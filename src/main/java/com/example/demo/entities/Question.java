@@ -20,7 +20,7 @@ public class Question {
 
     private String q_description;
     private String difficulty;
-    
+
     @ManyToOne
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
@@ -51,6 +51,7 @@ public class Question {
     public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
     }
+
     public Quiz getQuiz() {
         return quiz;
     }
@@ -58,7 +59,10 @@ public class Question {
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
     }
-    
 
-    
+    @Override
+    public String toString() {
+        return "Question [q_description=" + q_description + ", difficulty=" + difficulty + "]";
+    }
+
 }

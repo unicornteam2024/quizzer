@@ -1,21 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Question</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-
 </head>
+
 <body>
 
     <div class="container mt-5">
-        <a th:href="@{/add-question/{id}(id=${quiz.id})}"><button class="btn btn-primary btn-sm"><i class="bi bi-plus" style="font-size: 18px; display: inline;"></i>Add Question</button></a>
-        <a th:href="@{/quizzes}"><button class="btn btn-secondary btn-sm"><i class="bi bi-list" style="font-size: 18px; display: inline;"></i> Quizzes</button></a>
+        <a th:href="@{/add-question/{id}(id=${quiz.id})}">
+            <button class="btn btn-primary btn-sm">
+                <i class="bi bi-plus" style="font-size: 18px; display: inline;"></i> Add Question
+            </button>
+        </a>
+        <a th:href="@{/quizzes}">
+            <button class="btn btn-secondary btn-sm">
+                <i class="bi bi-list" style="font-size: 18px; display: inline;"></i> Quizzes
+            </button>
+        </a>
         <br><br>
-        <h4 style="margin-top: 30px;display: inline;">Quiz: </h4><h4 style="margin-top: 30px;display: inline;" th:text="${quiz.title}"></h4>
+        <h4 style="margin-top: 30px; display: inline;">Quiz: </h4>
+        <h4 style="margin-top: 30px; display: inline;" th:text="${quiz.description}"></h4>
+    </div>
 
+    <div class="container mt-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Question Text</th>
+                    <th>Difficulty</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="question : ${questions}">
+                    <td th:text="${question.q_description}"></td>
+                    <td th:text="${question.difficulty}"></td>
+                    <!-- <td>
+                        <form th:action="@{'/delete-question/' + ${question.id}}" method="post"
+                            onsubmit="return confirm('Are you sure you want to delete this question?');"
+                            class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td> -->
+                    <td>
+                        <form
+                            th:action="@{/delete-question/{quizId}/{questionId}(quizId=${quiz.id}, questionId=${question.id})}"
+                            method="post" onsubmit="return confirm('Are you sure you want to delete this question?');"
+                            class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 </body>
+
 </html>
