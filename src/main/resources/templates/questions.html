@@ -12,7 +12,9 @@
     <div class="container mt-5">
         <a th:href="@{/add-question/{id}(id=${quiz.id})}"><button class="btn btn-primary btn-sm"><i class="bi bi-plus" style="font-size: 18px; display: inline;"></i>Add Question</button></a>
         <a th:href="@{/quizzes}"><button class="btn btn-secondary btn-sm"><i class="bi bi-list" style="font-size: 18px; display: inline;"></i> Quizzes</button></a>
-        <h4 style="margin-top: 30px;">Question</h4>
+        <br><br>
+        <h4 style="margin-top: 30px;display: inline;">Quiz: </h4><h4 style="margin-top: 30px;display: inline;" th:text="${quiz.description}"></h4>
+
     </div>
 
 </body>
