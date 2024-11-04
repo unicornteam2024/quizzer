@@ -46,4 +46,15 @@ public class QuizService {
         }
     }
 
+    public Quiz findQuizById(Long id) {
+        Quiz quiz = quizRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid id:" + id));
+
+            return quiz;
+    }
+
+    public void saveEditedQuiz(Quiz quiz) {
+        quizRepository.save(quiz);
+    }
+
 }

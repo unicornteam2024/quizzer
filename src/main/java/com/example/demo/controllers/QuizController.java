@@ -3,11 +3,14 @@ package com.example.demo.controllers;
 import com.example.demo.entities.Quiz;
 import com.example.demo.services.QuizService;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +33,23 @@ public class QuizController {
         System.out.println("Quiz Added: Title = " + quiz.getTitle() + ", Description = " + quiz.getDescription()
                 + ", Status = " + quiz.getStatus());
         return "redirect:/add-quiz";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable("id") long id, Model model) {
+        Quiz quiz = quizService.findQuizById(id);
+        model.addAttribute("quiz", quiz);
+        return "edit-quiz";
+    }
+
+    @PostMapping("/edit/{id}") 
+    public String updateBook(@PathVariable("id") long bookId, @Valid Quiz quiz, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            System.out.println("Validation errors occurred: " + result.getAllErrors());
+            return "edit-quiz";
+        }
+        quizService.saveEditedQuiz(quiz);
+        return "redirect:/quizzes";
     }
 
     /**
