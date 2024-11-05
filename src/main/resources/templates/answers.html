@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Answer Options</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h3
+        th:text="'Answer options of &#34;' + ${question.q_description} + '&#34;'"
+        class="mb-4"
+      ></h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Answer option text</th>
+            <th>Correctness</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="answer : ${answers}">
+            <td th:text="${answer.option}">Answer Text</td>
+            <td>
+              <span
+                th:if="${answer.correct}"
+                class="badge bg-success text-white"
+                >Correct</span
+              >
+              <span
+                th:if="${!answer.correct}"
+                class="badge bg-danger text-white"
+                >Not correct</span
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="mt-4">
+        <a
+          th:href="@{/quizzes/{quizId}/questions(quizId=${quizId})}"
+          class="btn btn-secondary"
+          >Back to questions</a
+        >
+      </div>
+    </div>
+  </body>
+</html>
