@@ -3,13 +3,7 @@ package com.example.demo.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 
 @Entity
@@ -22,6 +16,9 @@ public class Quiz {
     private String title;
     private String description;
     private String status;
+
+    @Transient  // This field won't be persisted in the database
+    private long questionCount;
 
     @Column(name = "created_date", updatable = false)
     private LocalDateTime createdDate;
@@ -80,5 +77,14 @@ public class Quiz {
 
     public LocalDateTime getCreatedDate() {
         return createdDate;
+    }
+
+    
+    public long getQuestionCount() {
+        return questionCount;
+    }
+
+    public void setQuestionCount(long questionCount) {
+        this.questionCount = questionCount;
     }
 }

@@ -13,46 +13,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.entities.Answer;
 import com.example.demo.entities.Question;
 import com.example.demo.entities.Quiz;
-import com.example.demo.repositories.AnswerRepository;
-import com.example.demo.repositories.QuestionRepository;
-import com.example.demo.repositories.QuizRepository;
+import com.example.demo.services.AnswerService;
 
 @Controller
 public class AnswerController {
 
     @Autowired
-    private QuestionRepository qrepository;
-
-    @Autowired
-    private AnswerRepository answerRepository;
-
-    @Autowired
-    private QuizRepository quizRepository;
+    private AnswerService answerService;
 
     @RequestMapping(value = "/save-answer/{questionId}", method = RequestMethod.POST)
     public String saveAnswer(@PathVariable Long questionId,
-                            @RequestParam String option,
-                            @RequestParam(defaultValue = "false") boolean isCorrect) {
-        Question question = qrepository.findById(questionId)
-                .orElseThrow(() -> new RuntimeException("Question not found"));
-        
-        Answer answer = new Answer();
-        answer.setOption(option);
-        answer.setCorrect(isCorrect);
-        answer.setQuestion(question);
-        
-        answerRepository.save(answer);
-        
+                           @RequestParam String option,
+                           @RequestParam(defaultValue = "false") boolean isCorrect) {
+        Answer answer = answerService.saveAnswer(questionId, option, isCorrect);
+        Question question = answer.getQuestion();
         return "redirect:/quizzes/" + question.getQuiz().getId() + "/questions";
     }
 
-    @RequestMapping(value = "quizzes/{quizId}/questions/{questionId}/answers", method=RequestMethod.GET)
-    public String requestMethodName(@PathVariable("quizId") Long quizId, @PathVariable("questionId") Long questionId, Model model) {
-        Question question = qrepository.findById(questionId)
-        .orElseThrow(() -> new RuntimeException("Question not found"));
-        Quiz quiz = quizRepository.findById(quizId)
-        .orElseThrow(() -> new RuntimeException("Quiz not found"));
-        List<Answer> answers = answerRepository.findByQuestionId(questionId);
+    @RequestMapping(value = "quizzes/{quizId}/questions/{questionId}/answers", method = RequestMethod.GET)
+    public String requestMethodName(@PathVariable("quizId") Long quizId,
+                                  @PathVariable("questionId") Long questionId,
+                                  Model model) {
+        Question question = answerService.getQuestionById(questionId);
+        Quiz quiz = answerService.getQuizById(quizId);
+        List<Answer> answers = answerService.getAnswersByQuestionId(questionId);
 
         model.addAttribute("question", question);
         model.addAttribute("quiz", quiz);
@@ -61,9 +45,12 @@ public class AnswerController {
 
         return "answers";
     }
+
     @RequestMapping(value = "/delete-answer/{quizId}/{questionId}/{answerId}", method = RequestMethod.POST)
-    public String deleteAnswer(@PathVariable Long quizId, @PathVariable Long questionId, @PathVariable Long answerId) {
-        answerRepository.deleteById(answerId);
-        return "redirect:/quizzes/" + quizId + "/questions/"+ questionId +"/answers";
+    public String deleteAnswer(@PathVariable Long quizId,
+                             @PathVariable Long questionId,
+                             @PathVariable Long answerId) {
+        answerService.deleteAnswer(answerId);
+        return "redirect:/quizzes/" + quizId + "/questions/" + questionId + "/answers";
     }
 }

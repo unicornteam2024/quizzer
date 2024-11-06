@@ -5,6 +5,7 @@ import com.example.demo.services.QuizService;
 
 import jakarta.validation.Valid;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class QuizController {
@@ -52,13 +54,6 @@ public class QuizController {
         return "redirect:/quizzes";
     }
 
-    /**
-     * Handles POST requests to delete a quiz with the specified ID.
-     * Deletes the quiz and redirects back to the quiz list.
-     *
-     * @param id the ID of the quiz to delete
-     * @return redirect to the quiz list page
-     */
     @PostMapping("/quizzes/delete/{id}")
     public String deleteQuiz(@PathVariable Long id) {
         try {
@@ -70,20 +65,14 @@ public class QuizController {
         }
     }
 
-    /**
-     * Handles GET requests to "/quizzes" and displays a list of all quizzes in the
-     * system.
-     * Retrieves quizzes from the service layer and passes them to the view through
-     * the model.
-     *
-     * @param model the Model object used to pass quiz list to the view
-     * @return the name of the view template "list-quizzes" that displays the quiz
-     *         list
-     */
     @GetMapping({"/", "/quizzes"})
-    public String listQuizzes(Model model) {
-        List<Quiz> quizzes = quizService.getAllQuizzes();
+    public String listQuizzes(@RequestParam(required = false, defaultValue = "ALL") String status, Model model) {
+        List<Quiz> quizzes = quizService.getQuizzesByStatus(status);
+        List<String> statuses = Arrays.asList("ALL", "PUBLISHED", "DRAFT");
+        
         model.addAttribute("quizzes", quizzes);
+        model.addAttribute("selectedStatus", status);
+        model.addAttribute("statuses", statuses);
         return "list-quizzes";
     }
 }
