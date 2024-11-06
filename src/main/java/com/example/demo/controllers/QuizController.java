@@ -34,7 +34,7 @@ public class QuizController {
         quizService.createQuiz(quiz);
         System.out.println("Quiz Added: Title = " + quiz.getTitle() + ", Description = " + quiz.getDescription()
                 + ", Status = " + quiz.getStatus());
-        return "redirect:/add-quiz";
+        return "redirect:/quizzes";
     }
 
     @GetMapping("/edit/{id}")
