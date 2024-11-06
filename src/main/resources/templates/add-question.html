@@ -28,7 +28,7 @@
             
         
             <button type="submit" class="btn btn-lg btn-primary" style="display: inline;font-size: 15px;">Save Question</button>
-            <a th:href="@{/quizzes}" class="btn btn-lg btn-danger" style="display: inline;font-size: 18px">Cancel</a>
+            <a th:href="@{/quizzes/{quizId}/questions(quizId=${quiz.id})}" class="btn btn-lg btn-danger" style="display: inline;font-size: 18px">Cancel</a>
         </form>
         
 
