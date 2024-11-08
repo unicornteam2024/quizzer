@@ -18,9 +18,26 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Layout>
-        <QuizList />
-      </Layout>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          backgroundColor: theme.palette.background.default,
+          minHeight: "100vh",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "1200px",
+            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+          }}
+        >
+          <Layout>
+            <QuizList />
+          </Layout>
+        </div>
+      </div>
     </ThemeProvider>
   );
 }

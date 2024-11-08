@@ -21,6 +21,20 @@ export const mockQuizzes = [
     status: true,
     createdDate: "2024-11-08T09:15:00",
   },
+  {
+    id: 4,
+    title: "English",
+    description: "English Studies",
+    status: true,
+    createdDate: "2024-10-08T08:08:08",
+  },
+  {
+    id: 5,
+    title: "Algebra",
+    description: "Algebraic Expressions",
+    status: true,
+    createdDate: "2024-09-09T09:09:09",
+  },
 ];
 
 // Simulate API call delay

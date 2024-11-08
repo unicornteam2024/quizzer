@@ -3,14 +3,12 @@ import { AgGridReact } from "ag-grid-react";
 import { fetchPublishedQuizzes } from "../services/mockQuizService";
 import { Box, Typography } from "@mui/material";
 
-// Import required AG Grid styles
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
 
-  // Column definitions for AG Grid
   const columns = [
     {
       field: "title",
