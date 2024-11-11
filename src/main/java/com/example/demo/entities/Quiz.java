@@ -1,10 +1,9 @@
 package com.example.demo.entities;
  
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import jakarta.persistence.*;
-
 
 @Entity
 public class Quiz {
@@ -17,13 +16,15 @@ public class Quiz {
     private String description;
     private String status;
 
-    @Transient  // This field won't be persisted in the database
+    @Transient
     private long questionCount;
 
     @Column(name = "created_date", updatable = false)
     private LocalDateTime createdDate;
 
-
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @JsonManagedReference(value="quiz-question")
+    private List<Question> questions;
 
     // Default constructor
     public Quiz() {
@@ -37,10 +38,6 @@ public class Quiz {
         this.status = status;
         this.createdDate = LocalDateTime.now();
     }
-
-    //Creating relationship to the question entity
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
-    private List<Question> questions;
 
     // Getters and Setters
     public Long getId() {
@@ -79,12 +76,19 @@ public class Quiz {
         return createdDate;
     }
 
-    
     public long getQuestionCount() {
         return questionCount;
     }
 
     public void setQuestionCount(long questionCount) {
         this.questionCount = questionCount;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 }

@@ -1,16 +1,10 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.ArrayList;
 import java.util.List;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity
 public class Question {
@@ -24,9 +18,11 @@ public class Question {
 
     @ManyToOne
     @JoinColumn(name = "quiz_id")
+    @JsonBackReference(value="quiz-question")
     private Quiz quiz;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @JsonManagedReference(value="question-answer")
     private List<Answer> answers = new ArrayList<>();
 
     public Long getId() {
@@ -73,5 +69,4 @@ public class Question {
     public String toString() {
         return "Question [q_description=" + q_description + ", difficulty=" + difficulty + "]";
     }
-
 }
