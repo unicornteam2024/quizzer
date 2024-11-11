@@ -1,12 +1,7 @@
 package com.example.demo.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -26,6 +21,7 @@ public class Answer {
     
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
+    @JsonBackReference(value="question-answer")
     private Question question;
     
     // Default constructor
@@ -71,7 +67,6 @@ public class Answer {
     public void setQuestion(Question question) {
         this.question = question;
     }
-    
     
     @Override
     public String toString() {
