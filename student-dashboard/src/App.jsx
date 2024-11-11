@@ -29,7 +29,6 @@ function App() {
         <div
           style={{
             width: "100%",
-            maxWidth: "1200px",
             boxShadow: "0 0 10px rgba(0,0,0,0.1)",
           }}
         >

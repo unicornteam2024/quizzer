@@ -72,6 +72,7 @@ const Layout = ({ children }) => {
           flexGrow: 1,
           py: 3,
           backgroundColor: theme.palette.grey[100],
+          marginTop: "10px",
         }}
       >
         {children}
