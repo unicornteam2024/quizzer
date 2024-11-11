@@ -16,6 +16,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import QuizIcon from "@mui/icons-material/Quiz";
+import logo from "../assets/quizzer-logo.png";
 
 const Layout = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -39,8 +40,20 @@ const Layout = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Quizzer - Student Dashboard
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <img src={logo} alt="Quizzer logo" width="110" height="30" />
+            </div>
+            <span style={{ paddingTop: "3px" }}>Student Dashboard</span>
           </Typography>
         </Toolbar>
       </AppBar>
