@@ -101,7 +101,7 @@ const Layout = ({ children }) => {
         }}
       >
         <Typography variant="body2" color="text.secondary" align="center">
-          © 2024 Quizzer
+          © 2024 Quizzer - Unicorn Team
         </Typography>
       </Box>
     </Box>
