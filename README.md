@@ -23,35 +23,35 @@ Here is the link to the [Quizzer](https://quizzer-c8si.onrender.com/)
 
 ## Developer Guide
 
-This guide provides instructions for setting up and running the backend application from the command line. Please ensure that you have the required Java installed before proceeding.
+This guide provides instructions for setting up and running the backend application from the command line. Please ensure that you have the required Java installed before proceeding.  
 
 ### Prerequistites
-- **Java Version**: The application requires **Java 17** to ensure accurate use. Please make sure you have the correct version installed on your machine.
+- **Java Version**: The application requires **Java 17** to ensure accurate use. Please make sure you have the correct version installed on your machine.  
   
 ### Getting Started
 
-1. **Clone the Repository**
-  Clone the project to your local machine using Git:
+1. **Clone the Repository**  
+  Clone the project to your local machine using Git:  
 
-  git clone https://github.com/unicornteam2024/quizzer.git
+  git clone https://github.com/unicornteam2024/quizzer.git  
 
-2. **Navigate to the project Directory**
-   cd quizzer
+2. **Navigate to the project Directory**  
+   cd quizzer  
    
-4. **Build Application**
-   Compile and build the application using the following command:
-   `./mvnw clean install`
+4. **Build Application**  
+   Compile and build the application using the following command:  
+   `./mvnw clean install`  
    
-   Note: The command `./mvnw` uses the Maven Wrapper provided in the repository, which ensures consistency with the         Maven version used in the project. On Windows, use `mvnw.cmd` instead of `./mvnw`.
+   Note: The command `./mvnw` uses the Maven Wrapper provided in the repository, which ensures consistency with the         Maven version used in the project. On Windows, use `mvnw.cmd` instead of `./mvnw`.  
    
-5. **Run Application**
-   `./mvnw spring-boot:run`
+5. **Run Application**  
+   `./mvnw spring-boot:run`  
    
-6. **Verify Application Status**
-   Once started, the application will be accessible at http://localhost:8080 by default (or another port if specified     in the configuration).
-7. **Troubleshooting**
-   Ensure you are running the correct Java version. You can verify your Java version with:
-   `java version`
-   If you encounter issues with permissions for `./mvnw`, make it executable by running:
-    `chmod +x mvnw`
+6. **Verify Application Status**  
+   Once started, the application will be accessible at http://localhost:8080 by default (or another port if specified     in the configuration).  
+7. **Troubleshooting**  
+   Ensure you are running the correct Java version. You can verify your Java version with:  
+   `java version`  
+   If you encounter issues with permissions for `./mvnw`, make it executable by running:  
+    `chmod +x mvnw`  
    
