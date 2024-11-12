@@ -1,13 +1,22 @@
 import { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { fetchPublishedQuizzes } from "../services/mockQuizService";
-import { Box, Typography } from "@mui/material";
+// import { fetchPublishedQuizzes } from "../services/mockQuizService";
+import { quizService } from "../services/quizService";
+import {
+  Box,
+  Typography,
+  CircularProgress,
+  Alert,
+  AlertTitle,
+} from "@mui/material";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const columns = [
     {
@@ -15,7 +24,7 @@ const QuizList = () => {
       headerName: "Quiz Title",
       flex: 2,
       sortable: true,
-      filter: true, 
+      filter: true,
       floatingFilter: true,
     },
     {
@@ -23,7 +32,7 @@ const QuizList = () => {
       headerName: "Description",
       flex: 3,
       sortable: true,
-      filter: true, 
+      filter: true,
       floatingFilter: true,
     },
     {
@@ -31,21 +40,63 @@ const QuizList = () => {
       headerName: "Created",
       flex: 1,
       sortable: true,
-      filter: true, 
+      filter: true,
       floatingFilter: true,
       valueFormatter: (params) => {
         return new Date(params.value).toLocaleDateString();
       },
     },
+    {
+      field: "questionCount",
+      headerName: "Questions",
+      flex: 1,
+      sortable: true,
+      filter: true,
+      floatingFilter: true,
+    },
   ];
 
   useEffect(() => {
     const loadQuizzes = async () => {
-      const data = await fetchPublishedQuizzes();
-      setQuizzes(data);
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await quizService.getPublishedQuizzes();
+        setQuizzes(data);
+      } catch (err) {
+        setError(err.message || "Failed to load quizzes");
+      } finally {
+        setLoading(false);
+      }
     };
     loadQuizzes();
   }, []);
+
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box sx={{ m: 2 }}>
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {error}
+        </Alert>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ height: "100%" }}>
