@@ -1,5 +1,5 @@
 package com.example.demo.entities;
- 
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,10 +14,10 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min=5)
+    @Size(min = 1)
     private String title;
 
-    @Size(min=5)
+    @Size(min = 1)
     private String description;
 
     @NotNull
@@ -30,7 +30,7 @@ public class Quiz {
     private LocalDateTime createdDate;
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
-    @JsonManagedReference(value="quiz-question")
+    @JsonManagedReference(value = "quiz-question")
     private List<Question> questions;
 
     // Default constructor

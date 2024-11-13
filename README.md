@@ -6,7 +6,7 @@ Quizzer is a web-based platform designed for teachers and students at Haaga Heli
 
 ## Team Members
 
-- Chen Shiyang, [GitHub Profile](https://github.com/ChenFangFangFang)
+- Shiyang Chen, [GitHub Profile](https://github.com/ChenFangFangFang)
 - Emad Yazdankhah, [Github Profile](https://github.com/emaDBytes)
 - Leon Mbishibishi, [Github Profile](https://github.com/mbishibishi11)
 - Yen (Chloe) Nguyen, [Github Profile](https://github.com/chloee122)
