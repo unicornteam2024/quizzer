@@ -32,11 +32,10 @@ This guide provides instructions for setting up and running the backend applicat
 
 1. **Clone the Repository**  
   Clone the project to your local machine using Git:  
-
   git clone https://github.com/unicornteam2024/quizzer.git  
 
 2. **Navigate to the project Directory**  
-   cd quizzer  
+   `cd quizzer` 
    
 4. **Build Application**  
    Compile and build the application using the following command:  
