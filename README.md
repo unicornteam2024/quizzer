@@ -53,4 +53,36 @@ This guide provides instructions for setting up and running the backend applicat
    `java version`  
    If you encounter issues with permissions for `./mvnw`, make it executable by running:  
     `chmod +x mvnw`  
-   
+
+### Data model
+```mermaid
+erDiagram
+    quiz {
+        integer id PK
+        varchar description
+        boolean status
+        timestamp created_date
+        integer category_id FK
+    }
+    question {
+        integer id PK
+        varchar description
+        integer quiz_id FK
+    }
+    answer {
+        integer id PK
+        integer question_id FK
+        boolean status
+        varchar answer
+    }
+    category {
+        integer id PK
+        varchar description
+        varchar name
+    }
+
+    category ||--o{ quiz : "has"
+    quiz ||--o{ question : "contains"
+    question ||--o{ answer : "has"
+
+```
