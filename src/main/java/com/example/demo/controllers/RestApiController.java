@@ -1,11 +1,7 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.Quiz;
-import com.example.demo.entities.Question;
-import com.example.demo.entities.Answer;
-import com.example.demo.services.QuizService;
-import com.example.demo.services.QuestionService;
-import com.example.demo.services.AnswerService;
+import com.example.demo.entities.*;
+import com.example.demo.services.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +15,7 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
-public class QuizRestController {
+public class RestApiController {
 
     @Autowired
     private QuizService quizService;
@@ -29,6 +25,9 @@ public class QuizRestController {
     
     @Autowired
     private AnswerService answerService;
+    
+    @Autowired
+    private CategoryService categoryService;
 
     // Error handling
     @ExceptionHandler(IllegalArgumentException.class)
@@ -65,7 +64,6 @@ public class QuizRestController {
 
     @PutMapping("/quizzes/{id}")
     public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @RequestBody Quiz quiz) {
-        // Verify quiz exists
         quizService.findQuizById(id);
         quiz.setId(id);
         quizService.saveEditedQuiz(quiz);
@@ -116,6 +114,29 @@ public class QuizRestController {
     @DeleteMapping("/answers/{id}")
     public ResponseEntity<Void> deleteAnswer(@PathVariable Long id) {
         answerService.deleteAnswer(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // Category endpoints
+    @GetMapping("/categories")
+    public ResponseEntity<List<Category>> getAllCategories() {
+        return ResponseEntity.ok(categoryService.getAllCategories());
+    }
+
+    @GetMapping("/categories/{id}")
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+        return ResponseEntity.ok(categoryService.findCategoryById(id));
+    }
+
+    @PostMapping("/categories")
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+        Category createdCategory = categoryService.createCategory(category);
+        return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }
 }
