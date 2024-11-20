@@ -34,6 +34,15 @@ public class QuizService {
     public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
+    
+    public Quiz findQuizById(Long id) {
+        Quiz quiz = quizRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid id:" + id));
+            
+        // Set question count based on actual questions list size
+        quiz.setQuestionCount(quiz.getQuestions().size());
+        return quiz;
+    }
 
     public List<Quiz> getQuizzesByStatus(String status) {
         List<Quiz> quizzes;
@@ -67,13 +76,6 @@ public class QuizService {
             System.err.println("Error deleting quiz with id: " + id);
             throw new RuntimeException("Failed to delete quiz", e);
         }
-    }
-
-    public Quiz findQuizById(Long id) {
-        Quiz quiz = quizRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid id:" + id));
-
-            return quiz;
     }
 
     public void saveEditedQuiz(Quiz quiz) {
