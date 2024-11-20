@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,6 +33,11 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "quiz-question")
     private List<Question> questions;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonBackReference(value = "category-quiz")
+    private Category category;
 
     // Default constructor
     public Quiz() {
@@ -97,5 +103,12 @@ public class Quiz {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+    
+    public Category getCategory() { 
+        return category; 
+    }
+    public void setCategory(Category category) { 
+        this.category = category; 
     }
 }
