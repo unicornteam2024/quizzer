@@ -26,6 +26,20 @@ const QuizList = () => {
       sortable: true,
       filter: true,
       floatingFilter: true,
+      cellRenderer: (params) => {
+        return (
+          <a
+          href={`/questions/${params.data.id}`}
+          target="_blank"
+          style={{
+          
+            color: "#1976d2",
+            fontWeight: "bold",
+          }}>
+            {params.value}
+          </a>
+        )
+      },
     },
     {
       field: "description",
