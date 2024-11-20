@@ -1,5 +1,7 @@
+import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import QuizList from "./pages/QuizList";
+import QuestionList from "./pages/QuestionList"; 
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
@@ -33,7 +35,11 @@ function App() {
           }}
         >
           <Layout>
-            <QuizList />
+            <Routes>
+              <Route path="/" element={<QuizList />} />
+              <Route path="/quizzes" element={<QuizList />} />
+              <Route path="/questions/:id" element={<QuestionList />} />
+            </Routes>
           </Layout>
         </div>
       </div>
