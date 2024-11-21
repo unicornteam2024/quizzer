@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import QuizIcon from "@mui/icons-material/Quiz";
+import CategoryIcon from "@mui/icons-material/Category";
 import logo from "../assets/quizzer-logo.png";
 
 const Layout = ({ children }) => {
@@ -27,6 +28,7 @@ const Layout = ({ children }) => {
   const menuItems = [
     { text: "Home", icon: <HomeIcon />, path: "/" },
     { text: "Quizzes", icon: <QuizIcon />, path: "/quizzes" },
+    { text: "Categories", icon: <CategoryIcon />, path: "/categories" },
   ];
 
   return (
