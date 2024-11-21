@@ -29,15 +29,15 @@ const QuizList = () => {
       cellRenderer: (params) => {
         return (
           <a
-          href={`/questions/${params.data.id}`}
-          style={{
-          
-            color: "#1976d2",
-            fontWeight: "bold",
-          }}>
+            href={`/questions/${params.data.id}`}
+            style={{
+              color: "#1976d2",
+              fontWeight: "bold",
+            }}
+          >
             {params.value}
           </a>
-        )
+        );
       },
     },
     {

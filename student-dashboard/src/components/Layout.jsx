@@ -14,7 +14,7 @@ import {
   ListItemButton,
   useTheme,
 } from "@mui/material";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import QuizIcon from "@mui/icons-material/Quiz";
@@ -72,17 +72,25 @@ const Layout = ({ children }) => {
         >
           <List>
             {menuItems.map((item) => (
-              <ListItem 
-                key={item.text}>
-                  <ListItemButton
-                component={Link} 
-                to={item.path}
-                 sx={{ display: 'flex', alignItems: 'left', textAlign: 'left' }}>
-                 <ListItemIcon sx={{ color: "primary.main" }} >{item.icon}</ListItemIcon>
-                <ListItemText primary={item.text} sx={{ color: "primary.main" }} />
-
-                 </ListItemButton>
-                </ListItem>
+              <ListItem key={item.text}>
+                <ListItemButton
+                  component={Link}
+                  to={item.path}
+                  sx={{
+                    display: "flex",
+                    alignItems: "left",
+                    textAlign: "left",
+                  }}
+                >
+                  <ListItemIcon sx={{ color: "primary.main" }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.text}
+                    sx={{ color: "primary.main" }}
+                  />
+                </ListItemButton>
+              </ListItem>
             ))}
           </List>
         </Box>
