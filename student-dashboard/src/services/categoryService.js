@@ -1,12 +1,6 @@
-const API_BASE_URL = "http://localhost:8080/api";
+import { handleResponse } from "./utils";
 
-const handleResponse = async (response) => {
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.error || "Something went wrong");
-  }
-  return response.json();
-};
+const API_BASE_URL = "http://localhost:8080/api";
 
 export const categoryService = {
   getCategories: async () => {
