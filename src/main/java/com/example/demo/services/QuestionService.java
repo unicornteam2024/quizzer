@@ -38,4 +38,9 @@ public class QuestionService {
     public void deleteQuestion(Long questionId) {
         questionRepository.deleteById(questionId);
     }
+
+    public Question findQuestionById(Long id) {
+        return questionRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Question not found with id: " + id));
+    }
 }
