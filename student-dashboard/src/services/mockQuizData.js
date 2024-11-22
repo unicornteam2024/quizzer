@@ -1,6 +1,6 @@
 // Mock data structure matching our backend entities
 export const mockQuizData = {
-  1: {
+  3: {
     // Quiz ID 1 (matching our existing English quiz)
     questions: [
       {
