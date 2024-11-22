@@ -32,7 +32,7 @@ export const mockQuizData = {
       },
       {
         id: 2,
-        q_description: "What is the past tense of 'eat'?",
+        q_description: "What is the past tense OFFF 'eat'?",
         difficulty: "Normal",
         answers: [
           {
@@ -55,6 +55,28 @@ export const mockQuizData = {
       {
         id: 3,
         q_description: "Identify the correct sentence:",
+        difficulty: "Hard",
+        answers: [
+          {
+            id: 8,
+            option: "They is going to school.",
+            isCorrect: false,
+          },
+          {
+            id: 9,
+            option: "They are going to school.",
+            isCorrect: true,
+          },
+          {
+            id: 10,
+            option: "They am going to school.",
+            isCorrect: false,
+          },
+        ],
+      },
+      {
+        id: 4,
+        q_description: "Identify the correct sentence TEST:",
         difficulty: "Hard",
         answers: [
           {
