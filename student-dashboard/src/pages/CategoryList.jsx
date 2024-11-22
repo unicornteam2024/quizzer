@@ -23,7 +23,6 @@ const CategoryList = () => {
       filter: true,
       floatingFilter: true,
       cellRenderer: (params) => {
-        console.log(params);
         return (
           <a
             href={`categories/${params.data.id}`}

@@ -5,6 +5,7 @@ import QuestionList from "./pages/QuestionList";
 import CategoryList from "./pages/CategoryList";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CategoryDetails from "./pages/CategoryDetails";
 
 const theme = createTheme({
   palette: {
@@ -41,6 +42,7 @@ function App() {
               <Route path="/quizzes" element={<QuizList />} />
               <Route path="/questions/:id" element={<QuestionList />} />
               <Route path="/categories" element={<CategoryList />} />
+              <Route path="/categories/:id" element={<CategoryDetails />} />
             </Routes>
           </Layout>
         </div>
