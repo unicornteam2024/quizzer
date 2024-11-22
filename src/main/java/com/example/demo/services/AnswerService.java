@@ -36,6 +36,11 @@ public class AnswerService {
         return answerRepository.save(answer);
     }
 
+    public Answer findById(Long id) {
+        return answerRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Answer not found with id: " + id));
+    }
+
     public Question getQuestionById(Long questionId) {
         return questionRepository.findById(questionId)
                 .orElseThrow(() -> new RuntimeException("Question not found"));
