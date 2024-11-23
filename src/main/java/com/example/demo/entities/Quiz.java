@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
 import java.util.List;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -21,7 +20,7 @@ public class Quiz {
     @Size(min = 1)
     private String description;
 
-    @NotNull
+    @Column(nullable = true)
     private String status;
 
     @Transient
@@ -104,11 +103,12 @@ public class Quiz {
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
-    
-    public Category getCategory() { 
-        return category; 
+
+    public Category getCategory() {
+        return category;
     }
-    public void setCategory(Category category) { 
-        this.category = category; 
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
