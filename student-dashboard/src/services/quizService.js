@@ -1,7 +1,9 @@
 import { handleResponse } from "./utils";
-import { getMockQuizQuestions, getMockQuestionAnswers } from "./mockQuizData";
+import { getMockQuestionAnswers } from "./mockQuizData";
 
-const API_BASE_URL = "http://localhost:8080/api";
+console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
+
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const quizService = {
   getPublishedQuizzes: async () => {
@@ -16,15 +18,38 @@ export const quizService = {
 
   getQuizById: async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/quizzes/${id}`);
-      const quiz = await handleResponse(response);
-      console.log("Original quiz:", quiz); // Debugging
-      const mockQuestions = getMockQuizQuestions(id);
-      console.log("Mock questions:", mockQuestions); // Debugging
-      // Enhance the quiz with mock questions
+      // First get the quiz details
+      const quizResponse = await fetch(`${API_BASE_URL}/quizzes/${id}`);
+      const quiz = await handleResponse(quizResponse);
+      console.log("Quiz details:", quiz); // Debugging
+
+      // Then get the questions for this quiz
+      const questionsResponse = await fetch(
+        `${API_BASE_URL}/quizzes/${id}/questions`
+      );
+      const questions = await handleResponse(questionsResponse);
+      console.log("Questions from API:", questions); // Debugging
+
+      // For each question, fetch its answers
+      const questionsWithAnswers = await Promise.all(
+        questions.map(async (question) => {
+          const answersResponse = await fetch(
+            `${API_BASE_URL}/questions/${question.id}/answers`
+          );
+          const answers = await handleResponse(answersResponse);
+          console.log(`Answers for question ${question.id}:`, answers); // Debugging
+
+          return {
+            ...question,
+            answers: answers,
+          };
+        })
+      );
+
+      // Return combined data
       return {
         ...quiz,
-        questions: getMockQuizQuestions(id),
+        questions: questionsWithAnswers,
       };
     } catch (error) {
       console.error("Error fetching quiz:", error);
@@ -35,8 +60,12 @@ export const quizService = {
   // Methods for handling questions and answers
   getQuizQuestions: async (quizId) => {
     try {
-      // Using mock data instead of API call
-      return getMockQuizQuestions(quizId);
+      const response = await fetch(
+        `${API_BASE_URL}/quizzes/${quizId}/questions`
+      );
+      const data = await handleResponse(response);
+      console.log("Questions from API:", data); // Debugging line
+      return data;
     } catch (error) {
       console.error("Error fetching questions:", error);
       throw error;
