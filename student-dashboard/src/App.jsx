@@ -1,11 +1,14 @@
 import { Routes, Route } from "react-router-dom";
+
 import Layout from "./components/Layout";
 import QuizList from "./pages/QuizList";
 import QuestionList from "./pages/QuestionList";
 import CategoryList from "./pages/CategoryList";
+import QuizResults from "./pages/QuizResults";
+import CategoryDetails from "./pages/CategoryDetails";
+
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CategoryDetails from "./pages/CategoryDetails";
 
 const theme = createTheme({
   palette: {
@@ -41,6 +44,7 @@ function App() {
               <Route path="/" element={<QuizList />} />
               <Route path="/quizzes" element={<QuizList />} />
               <Route path="/quizzes/:id/questions" element={<QuestionList />} />
+              <Route path="/quizzes/:id/results" element={<QuizResults />} />
               <Route path="/categories" element={<CategoryList />} />
               <Route path="/categories/:id" element={<CategoryDetails />} />
             </Routes>

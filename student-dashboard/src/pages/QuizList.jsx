@@ -84,11 +84,7 @@ const QuizList = () => {
       cellRenderer: (params) => {
         return (
           <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              testQuizResults(params.data.id);
-            }}
+            href={`/quizzes/${params.data.id}/results`}
             style={{
               color: "#1976d2",
               textDecoration: "underline",
