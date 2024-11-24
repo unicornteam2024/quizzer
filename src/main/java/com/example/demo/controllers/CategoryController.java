@@ -1,13 +1,17 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.Category;
-import com.example.demo.services.CategoryService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.demo.entities.Category;
+import com.example.demo.services.CategoryService;
 
 @Controller
 public class CategoryController {
@@ -20,6 +24,13 @@ public class CategoryController {
         return "add-category";
     }
 
+    @GetMapping("/categories")
+    public String listCategories(Model model) {
+        List<Category> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
+        return "list-categories";
+    }
+
     @PostMapping("/add-category")
     public String addCategory(@ModelAttribute Category category, RedirectAttributes redirectAttributes) {
         try {
@@ -28,6 +39,6 @@ public class CategoryController {
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
-        return "redirect:/quizzes";
+        return "redirect:/categories";
     }
 }
