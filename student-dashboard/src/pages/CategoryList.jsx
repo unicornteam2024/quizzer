@@ -12,7 +12,7 @@ import { AgGridReact } from "ag-grid-react";
 import { categoryService } from "../services/categoryService";
 
 const CategoryList = () => {
-  const [categories, setCategories] = useState(null);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 

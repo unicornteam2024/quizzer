@@ -44,7 +44,7 @@ const CategoryDetails = () => {
       cellRenderer: (params) => {
         return (
           <a
-            href={`/questions/${params.data.id}`}
+            href={`/quizzes/${params.data.id}/questions`}
             style={{
               color: "#1976d2",
               fontWeight: "bold",
