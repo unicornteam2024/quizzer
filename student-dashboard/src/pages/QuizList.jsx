@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 // import { fetchPublishedQuizzes } from "../services/mockQuizService";
 import { quizService } from "../services/quizService";
+import { quizResultsService } from "../services/quizResultsService";
 import {
   Box,
   Typography,
@@ -12,6 +13,15 @@ import {
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+
+const testQuizResults = async (quizId) => {
+  try {
+    const results = await quizResultsService.getQuizStatistics(quizId);
+    console.log("Quiz Results:", results);
+  } catch (error) {
+    console.error("Error testing quiz results:", error);
+  }
+};
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -66,6 +76,25 @@ const QuizList = () => {
       sortable: true,
       filter: true,
       floatingFilter: true,
+    },
+    {
+      field: "id",
+      headerName: "Results",
+      flex: 1,
+      cellRenderer: (params) => {
+        return (
+          <a
+            href={`/quizzes/${params.data.id}/results`}
+            style={{
+              color: "#1976d2",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            View Results
+          </a>
+        );
+      },
     },
   ];
 
