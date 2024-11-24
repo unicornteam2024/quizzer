@@ -9,7 +9,6 @@ import {
 import { categoryService } from "../services/categoryService";
 import { useParams } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
-import { mockQuizzes } from "../services/mockQuizService";
 
 const CategoryDetails = () => {
   const [category, setCategory] = useState({});
@@ -45,7 +44,7 @@ const CategoryDetails = () => {
       cellRenderer: (params) => {
         return (
           <a
-            href={`/questions/${params.data.id + 1}`}
+            href={`/questions/${params.data.id}`}
             style={{
               color: "#1976d2",
               fontWeight: "bold",
@@ -140,9 +139,7 @@ const CategoryDetails = () => {
         style={{ height: "500px", width: "100%" }}
       >
         <AgGridReact
-          rowData={
-            category.quizzes.length !== 0 ? category.quizzes : mockQuizzes
-          }
+          rowData={category.quizzes}
           columnDefs={columns}
           pagination={true}
           paginationPageSize={10}
