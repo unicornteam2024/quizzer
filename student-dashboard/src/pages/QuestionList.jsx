@@ -112,7 +112,7 @@ const QuestionList = () => {
             </Typography>
             <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
               Question {index + 1} of {questions.length} - Difficulty:{" "}
-              {question.difficulty}
+              {question.difficulty} - Category: {quiz.categoryName}
             </Typography>
 
             <RadioGroup
