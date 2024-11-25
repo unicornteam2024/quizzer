@@ -25,10 +25,12 @@ Here is the link to the [Quizzer](https://quizzer-c8si.onrender.com/)
 
 This guide provides instructions for setting up and running the backend application from the command line. Please ensure that you have the required Java installed before proceeding.  
 
-### Prerequistites
+### Backend
+
+#### Prerequistites
 - **Java Version**: The application requires **Java 17** to ensure accurate use. Please make sure you have the correct version installed on your machine.  
   
-### Getting Started
+#### Getting Started
 
 1. **Clone the Repository**  
   Clone the project to your local machine using Git:  
@@ -52,7 +54,8 @@ This guide provides instructions for setting up and running the backend applicat
    Ensure you are running the correct Java version. You can verify your Java version with:  
    `java version`  
    If you encounter issues with permissions for `./mvnw`, make it executable by running:  
-    `chmod +x mvnw`  
+    `chmod +x mvnw`
+### Frontend
 
 ### Data model
 ```mermaid
