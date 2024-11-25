@@ -9,6 +9,7 @@ export const quizService = {
   getPublishedQuizzes: async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/quizzes?status=PUBLISHED`);
+      //console.log(response);
       return handleResponse(response);
     } catch (error) {
       console.error("Error fetching quizzes:", error);
