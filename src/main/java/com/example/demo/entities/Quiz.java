@@ -3,6 +3,7 @@ package com.example.demo.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -29,9 +30,9 @@ public class Quiz {
     @Column(name = "created_date", updatable = false)
     private LocalDateTime createdDate;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference(value = "quiz-question")
-    private List<Question> questions;
+    private List<Question> questions = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -89,6 +90,9 @@ public class Quiz {
     }
 
     public long getQuestionCount() {
+        if (questions != null) {
+            return questions.size();
+        }
         return questionCount;
     }
 
@@ -97,11 +101,12 @@ public class Quiz {
     }
 
     public List<Question> getQuestions() {
-        return questions;
+        return questions != null ? questions : new ArrayList<>();
     }
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+        this.questionCount = questions != null ? questions.size() : 0;
     }
 
     public Category getCategory() {
@@ -110,5 +115,10 @@ public class Quiz {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @PostLoad
+    private void calculateQuestionCount() {
+        this.questionCount = questions != null ? questions.size() : 0;
     }
 }
