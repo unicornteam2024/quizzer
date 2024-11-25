@@ -156,11 +156,6 @@ public class RestApiController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/answers/{answerId}/question")
-    public ResponseEntity<Question> getQuestionByAnswerId(@PathVariable Long answerId) {
-        return ResponseEntity.ok(questionService.findQuestionByAnswerId(answerId));
-    }
-
     // Category endpoints
     @GetMapping("/categories")
     public ResponseEntity<List<Category>> getAllCategories() {
