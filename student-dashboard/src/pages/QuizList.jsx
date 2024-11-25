@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
 // import { fetchPublishedQuizzes } from "../services/mockQuizService";
 import { quizService } from "../services/quizService";
@@ -38,15 +39,16 @@ const QuizList = () => {
       floatingFilter: true,
       cellRenderer: (params) => {
         return (
-          <a
-            href={`quizzes/${params.data.id}/questions`}
+          <Link
+            to={`/quizzes/${params.data.id}/questions`}
             style={{
               color: "#1976d2",
               fontWeight: "bold",
+              textDecoration: "none",
             }}
           >
             {params.value}
-          </a>
+          </Link>
         );
       },
     },
@@ -83,8 +85,8 @@ const QuizList = () => {
       flex: 1,
       cellRenderer: (params) => {
         return (
-          <a
-            href={`/quizzes/${params.data.id}/results`}
+          <Link
+            to={`/quizzes/${params.data.id}/results`}
             style={{
               color: "#1976d2",
               textDecoration: "underline",
@@ -92,7 +94,7 @@ const QuizList = () => {
             }}
           >
             View Results
-          </a>
+          </Link>
         );
       },
     },
