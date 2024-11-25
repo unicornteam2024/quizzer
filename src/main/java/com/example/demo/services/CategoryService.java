@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public class CategoryService {
-    
+
     @Autowired
     private CategoryRepository categoryRepository;
 
@@ -28,12 +28,16 @@ public class CategoryService {
 
     public Category findCategoryById(Long id) {
         return categoryRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + id));
     }
 
-    public void deleteCategory(Long id) {
+    public void deleteCategory(Long id, Category category) {
         if (!categoryRepository.existsById(id)) {
             throw new IllegalArgumentException("Category not found with id: " + id);
+        }
+        if (category.getQuizzes() != null) {
+            throw new IllegalStateException("Cannot delete category with associated quizzes");
+
         }
         categoryRepository.deleteById(id);
     }
