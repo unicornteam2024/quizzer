@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
 
@@ -68,16 +68,24 @@ const QuizGrid = ({ quizzes }) => {
             View Results
           </Link>
         ) : (
-          <Typography
-            color="text.secondary"
+          <Box
             sx={{
-              fontSize: "0.875rem",
-              cursor: "not-allowed",
+              display: "flex",
+              alignItems: "center",
+              height: "100%",
             }}
-            title="No results available - quiz has no questions yet"
           >
-            No results
-          </Typography>
+            <Typography
+              color="text.secondary"
+              sx={{
+                fontSize: "0.875rem",
+                cursor: "not-allowed",
+              }}
+              title="No results available - quiz has no questions yet"
+            >
+              No results
+            </Typography>
+          </Box>
         );
       },
     },
