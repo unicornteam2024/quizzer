@@ -70,17 +70,6 @@ flowchart TD
    If you encounter issues with permissions for `./mvnw`, make it executable by running:  
     `chmod +x mvnw`
 
-#### Technology Stack
-- **Programming Language**: Java
-- **Framework**: Spring Boot
-- **Major Libraries**:
-  
-  Spring Data JPA for database interaction
-  
-  Spring Security for authentication and authorization
-  
-  Jackson for JSON processing
-
 ### Frontend
 #### Prerequisites
 - **Node.js**: Install the latest stable version of Node.js, which includes npm.
