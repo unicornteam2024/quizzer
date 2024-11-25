@@ -172,11 +172,11 @@ public class RestApiController {
         return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/categories/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
-        categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
-    }
+    // @DeleteMapping("/categories/{id}")
+    // public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    // categoryService.deleteCategory(id);
+    // return ResponseEntity.noContent().build();
+    // }
 
     // Answer History endpoints
     @PostMapping("/answers/{answerId}/submit")
