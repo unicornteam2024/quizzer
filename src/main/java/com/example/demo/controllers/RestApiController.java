@@ -85,7 +85,7 @@ public class RestApiController {
 
     @PutMapping("/quizzes/{id}")
     public ResponseEntity<Quiz> updateQuiz(@PathVariable Long id, @RequestBody Quiz quiz) {
-        quizService.findQuizById(id);
+        quizService.findQuizById(id); // Verify quiz exists
         quiz.setId(id);
         quizService.saveEditedQuiz(quiz);
         return ResponseEntity.ok(quiz);
@@ -98,7 +98,6 @@ public class RestApiController {
     }
 
     // Question endpoints
-
     @GetMapping("/questions/{id}")
     public ResponseEntity<Question> getQuestionById(@PathVariable Long id) {
         return ResponseEntity.ok(questionService.findQuestionById(id));
