@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -21,6 +23,17 @@ import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@JsonPropertyOrder({
+    "id", 
+    "title", 
+    "description",
+    "categoryId",
+    "categoryName", 
+    "createdDate", 
+    "status", 
+    "questionCount", 
+    "questions"
+})
 public class Quiz {
 
     @Id
@@ -50,6 +63,19 @@ public class Quiz {
     @JoinColumn(name = "category_id")
     @JsonBackReference(value = "category-quiz")
     private Category category;
+
+    // Add these transient fields for category info
+    @Transient
+    @JsonProperty("categoryId")
+    public Long getCategoryId() {
+        return category != null ? category.getId() : null;
+    }
+
+    @Transient
+    @JsonProperty("categoryName")
+    public String getCategoryName() {
+        return category != null ? category.getName() : null;
+    }
 
     // Default constructor
     public Quiz() {
