@@ -69,9 +69,57 @@ flowchart TD
    `java version`  
    If you encounter issues with permissions for `./mvnw`, make it executable by running:  
     `chmod +x mvnw`
-   
-### Frontend
 
+#### Technology Stack
+- **Programming Language**: Java
+- **Framework**: Spring Boot
+- **Major Libraries**:
+  
+  Spring Data JPA for database interaction
+  
+  Spring Security for authentication and authorization
+  
+  Jackson for JSON processing
+
+### Frontend
+#### Prerequisites
+- **Node.js**: Install the latest stable version of Node.js, which includes npm.
+
+#### Setting Up the Frontend
+1. **Navigate to the Frontend Directory**
+   
+   The frontend code is located in the `student-dashboard` folder within the project.
+   
+   `cd student-dashboard`
+2. **Install Dependencies**
+   
+   Install the required npm packages:
+
+   `npm install`
+3. **Start the Frontend Application**
+
+    Run the following command to start the frontend server:
+
+    `npm run dev`
+
+    The application will be accessible by default at http://localhost:5173.
+
+#### Technology Stack
+- **Programming Language**: JavaScript
+
+- **Framework**: React
+
+- **Major Libraries**:
+  
+    React Router for routing
+
+    Axios for API requests
+
+    Other libraries as required by the project setup
+
+### Database Platforms
+- **Development Environment**: Uses an in-memory H2 database for quick setup.
+- **Production Environment**: Uses a PostgreSQL database for reliable data persistence.
 ### Data model
 ```mermaid
 erDiagram
