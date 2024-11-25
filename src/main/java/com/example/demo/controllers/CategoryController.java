@@ -45,23 +45,36 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
+    // @PostMapping("/categories/delete/{id}")
+    // public String deleteCategory(@PathVariable("id") Long id, Model model) {
+    // try {
+    // categoryService.deleteCategory(id);
+    // model.addAttribute("successMessage", "Category deleted successfully");
+
+    // } catch (IllegalArgumentException e) {
+    // model.addAttribute("errorMessage", e.getMessage());
+    // } catch (IllegalStateException e) {
+    // model.addAttribute("errorMessage", e.getMessage());
+    // } catch (Exception e) {
+    // model.addAttribute("errorMessage", "An unexpected error occurred while
+    // deleting the category.");
+    // }
+    // return "redirect:/categories";
+    // }
     @PostMapping("/categories/delete/{id}")
     public String deleteCategory(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
-            // Retrieve the category by ID
-            Category category = categoryService.findCategoryById(id);
-
-            // Pass both the ID and the category to the service method
-            categoryService.deleteCategory(id, category);
-
-            redirectAttributes.addFlashAttribute("success", "Category deleted successfully.");
+            categoryService.deleteCategory(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Category deleted successfully");
         } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         } catch (IllegalStateException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "An unexpected error occurred.");
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "An unexpected error occurred while deleting the category.");
         }
         return "redirect:/categories";
     }
+
 }

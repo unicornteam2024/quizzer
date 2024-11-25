@@ -31,13 +31,12 @@ public class CategoryService {
                 .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + id));
     }
 
-    public void deleteCategory(Long id, Category category) {
-        if (!categoryRepository.existsById(id)) {
-            throw new IllegalArgumentException("Category not found with id: " + id);
-        }
-        if (category.getQuizzes() != null) {
-            throw new IllegalStateException("Cannot delete category with associated quizzes");
+    public void deleteCategory(Long id) {
+        Category category = categoryRepository.findByIdWithQuizzes(id)
+                .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + id));
 
+        if (category.getQuizzes() != null && !category.getQuizzes().isEmpty()) {
+            throw new IllegalStateException("Cannot delete category with associated quizzes");
         }
         categoryRepository.deleteById(id);
     }
