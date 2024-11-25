@@ -23,7 +23,21 @@ Here is the link to the [Quizzer](https://quizzer-c8si.onrender.com/)
 
 ## Developer Guide
 
-This guide provides instructions for setting up and running the backend application from the command line. Please ensure that you have the required Java installed before proceeding.  
+This guide provides instructions for setting up and running the application. It covers both backend and frontend parts, as well as the project's architecture.
+
+### Project Architecture
+The project architecture consists of three main components:
+
+- **Database**: Stores data persistently. Different database platforms may be used in development and production environments.
+- **Backend**: Handles the business logic, data processing, and API endpoints. It connects the frontend and database.
+- **Frontend**: The user interface (UI) written in React, where users interact with the application.
+
+#### Architecture Diagram
+```mermaid
+flowchart TD
+    Frontend["Frontend (React)"] --> Backend["Backend (Java, Spring Boot)"]
+    Backend --> Database["Database"]
+```
 
 ### Backend
 
@@ -55,6 +69,7 @@ This guide provides instructions for setting up and running the backend applicat
    `java version`  
    If you encounter issues with permissions for `./mvnw`, make it executable by running:  
     `chmod +x mvnw`
+   
 ### Frontend
 
 ### Data model
