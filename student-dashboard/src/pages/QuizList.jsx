@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
 // import { fetchPublishedQuizzes } from "../services/mockQuizService";
 import { quizService } from "../services/quizService";
-import { quizResultsService } from "../services/quizResultsService";
+// import { quizResultsService } from "../services/quizResultsService";
 import {
   Box,
   Typography,
@@ -15,14 +15,14 @@ import {
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
-const testQuizResults = async (quizId) => {
-  try {
-    const results = await quizResultsService.getQuizStatistics(quizId);
-    console.log("Quiz Results:", results);
-  } catch (error) {
-    console.error("Error testing quiz results:", error);
-  }
-};
+// const testQuizResults = async (quizId) => {
+//   try {
+//     const results = await quizResultsService.getQuizStatistics(quizId);
+//     console.log("Quiz Results:", results);
+//   } catch (error) {
+//     console.error("Error testing quiz results:", error);
+//   }
+// };
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -84,7 +84,8 @@ const QuizList = () => {
       headerName: "Results",
       flex: 1,
       cellRenderer: (params) => {
-        return (
+        const hasAnswers = params.data.questionCount > 0; // Basic check for possible results
+        return hasAnswers ? (
           <Link
             to={`/quizzes/${params.data.id}/results`}
             style={{
@@ -95,6 +96,17 @@ const QuizList = () => {
           >
             View Results
           </Link>
+        ) : (
+          <Typography
+            color="text.secondary"
+            sx={{
+              fontSize: "0.875rem",
+              cursor: "not-allowed",
+            }}
+            title="No results available - quiz has no questions yet"
+          >
+            No results
+          </Typography>
         );
       },
     },
