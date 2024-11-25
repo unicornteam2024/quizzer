@@ -85,25 +85,21 @@ export const quizService = {
 
   submitAnswer: async (questionId, answerId) => {
     try {
-      // Mock answer submission
-      const mockResponse = {
+      await fetch(`${API_BASE_URL}/answers/${answerId}/submit`, {
+        method: "POST",
+      });
+
+      const chosenAnswer = await fetch(
+        `${API_BASE_URL}/answers/${answerId}`
+      ).then((res) => res.json());
+
+      return {
         success: true,
-        message: "Answer submitted successfully",
-        correct: false, // This will be determined by checking mock data
-      };
-
-      // Get the question's answers from mock data
-      const answers = getMockQuestionAnswers(1, questionId); // Using quizId 1 for now
-      const selectedAnswer = answers.find((a) => a.id === answerId);
-
-      if (selectedAnswer) {
-        mockResponse.correct = selectedAnswer.isCorrect;
-        mockResponse.message = selectedAnswer.isCorrect
+        message: chosenAnswer.correct
           ? "That is correct, good job!"
-          : "That is not correct, try again";
-      }
-
-      return mockResponse;
+          : "That is not correct, try again",
+        correct: chosenAnswer.correct,
+      };
     } catch (error) {
       console.error("Error submitting answer:", error);
       throw error;

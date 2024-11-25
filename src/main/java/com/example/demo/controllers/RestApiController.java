@@ -140,6 +140,11 @@ public class RestApiController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/answers/{id}")
+    public ResponseEntity<Answer> getAnswerById(@PathVariable Long id) {
+        return ResponseEntity.ok(answerService.findAnswerById(id));
+    }
+
     @PostMapping("/questions/{questionId}/answers")
     public ResponseEntity<Answer> createAnswer(
             @PathVariable Long questionId,
