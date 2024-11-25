@@ -6,9 +6,7 @@ import {
   Typography,
   Paper,
   Grid,
-  CircularProgress,
   Alert,
-  AlertTitle,
   Card,
   CardContent,
   LinearProgress,
@@ -20,6 +18,8 @@ import {
   Check as CheckIcon,
   Close as CloseIcon,
 } from "@mui/icons-material";
+import LoadingIndicator from "../components/LoadingIndicator";
+import ErrorAlert from "../components/ErrorAlert";
 
 export default function QuizResults() {
   const { id } = useParams();
@@ -56,32 +56,8 @@ export default function QuizResults() {
     }
   };
 
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "50vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ p: 3 }}>
-        <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
-          {error}
-        </Alert>
-      </Box>
-    );
-  }
-
+  if (loading) return <LoadingIndicator />;
+  if (error) return <ErrorAlert errorMessage={error} />;
   if (!stats) {
     return (
       <Box sx={{ p: 3 }}>

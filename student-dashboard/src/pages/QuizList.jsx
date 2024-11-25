@@ -1,19 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { AgGridReact } from "ag-grid-react";
 // import { fetchPublishedQuizzes } from "../services/mockQuizService";
 import { quizService } from "../services/quizService";
 // import { quizResultsService } from "../services/quizResultsService";
-import {
-  Box,
-  Typography,
-  CircularProgress,
-  Alert,
-  AlertTitle,
-} from "@mui/material";
-
+import { Box, Typography } from "@mui/material";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import QuizGrid from "../components/QuizGrid";
+import LoadingIndicator from "../components/LoadingIndicator";
+import ErrorAlert from "../components/ErrorAlert";
 
 // const testQuizResults = async (quizId) => {
 //   try {
@@ -28,89 +22,6 @@ const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const columns = [
-    {
-      field: "title",
-      headerName: "Quiz Title",
-      flex: 2,
-      sortable: true,
-      filter: true,
-      floatingFilter: true,
-      cellRenderer: (params) => {
-        return (
-          <Link
-            to={`/quizzes/${params.data.id}/questions`}
-            style={{
-              color: "#1976d2",
-              fontWeight: "bold",
-              textDecoration: "none",
-            }}
-          >
-            {params.value}
-          </Link>
-        );
-      },
-    },
-    {
-      field: "description",
-      headerName: "Description",
-      flex: 3,
-      sortable: true,
-      filter: true,
-      floatingFilter: true,
-    },
-    {
-      field: "createdDate",
-      headerName: "Created",
-      flex: 1,
-      sortable: true,
-      filter: true,
-      floatingFilter: true,
-      valueFormatter: (params) => {
-        return new Date(params.value).toLocaleDateString();
-      },
-    },
-    {
-      field: "questionCount",
-      headerName: "Questions",
-      flex: 1,
-      sortable: true,
-      filter: true,
-      floatingFilter: true,
-    },
-    {
-      field: "id",
-      headerName: "Results",
-      flex: 1,
-      cellRenderer: (params) => {
-        const hasAnswers = params.data.questionCount > 0; // Basic check for possible results
-        return hasAnswers ? (
-          <Link
-            to={`/quizzes/${params.data.id}/results`}
-            style={{
-              color: "#1976d2",
-              textDecoration: "underline",
-              cursor: "pointer",
-            }}
-          >
-            View Results
-          </Link>
-        ) : (
-          <Typography
-            color="text.secondary"
-            sx={{
-              fontSize: "0.875rem",
-              cursor: "not-allowed",
-            }}
-            title="No results available - quiz has no questions yet"
-          >
-            No results
-          </Typography>
-        );
-      },
-    },
-  ];
 
   useEffect(() => {
     const loadQuizzes = async () => {
@@ -128,54 +39,15 @@ const QuizList = () => {
     loadQuizzes();
   }, []);
 
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ m: 2 }}>
-        <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
-          {error}
-        </Alert>
-      </Box>
-    );
-  }
+  if (loading) return <LoadingIndicator />;
+  if (error) return <ErrorAlert errorMessage={error} />;
 
   return (
     <Box sx={{ height: "100%" }}>
       <Typography variant="h4" gutterBottom>
         Available Quizzes
       </Typography>
-
-      <div
-        className="ag-theme-material"
-        style={{ height: "500px", width: "100%" }}
-      >
-        <AgGridReact
-          rowData={quizzes}
-          columnDefs={columns}
-          pagination={true}
-          paginationPageSize={10}
-          paginationPageSizeSelector={[10, 20, 50]}
-          defaultColDef={{
-            resizable: true,
-          }}
-          animateRows={true}
-        />
-      </div>
+      <QuizGrid quizzes={quizzes} />
     </Box>
   );
 };

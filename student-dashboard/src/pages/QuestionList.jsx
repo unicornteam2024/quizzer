@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import dayjs from "dayjs";
 import { quizService } from "../services/quizService";
+import LoadingIndicator from "../components/LoadingIndicator";
+import ErrorAlert from "../components/ErrorAlert";
 
 const QuestionList = () => {
   const { id } = useParams();
@@ -146,19 +148,8 @@ const QuestionList = () => {
     </Box>
   );
 
-  if (loading)
-    return (
-      <Box sx={{ display: "flex", justifyContent: "center", p: 3 }}>
-        <Typography>Loading...</Typography>
-      </Box>
-    );
-
-  if (error)
-    return (
-      <Box sx={{ p: 3 }}>
-        <Typography color="error">{error}</Typography>
-      </Box>
-    );
+  if (loading) return <LoadingIndicator />;
+  if (error) return <ErrorAlert errorMessage={error} />;
 
   return (
     <div>

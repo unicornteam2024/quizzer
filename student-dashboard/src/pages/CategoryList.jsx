@@ -1,16 +1,12 @@
 import { useState, useEffect } from "react";
-import {
-  Box,
-  Typography,
-  CircularProgress,
-  Alert,
-  AlertTitle,
-} from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { AgGridReact } from "ag-grid-react";
 import { Link } from "react-router-dom";
 import { categoryService } from "../services/categoryService";
+import LoadingIndicator from "../components/LoadingIndicator";
+import ErrorAlert from "../components/ErrorAlert";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -62,31 +58,8 @@ const CategoryList = () => {
     loadCategories();
   }, []);
 
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box sx={{ m: 2 }}>
-        <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
-          {error}
-        </Alert>
-      </Box>
-    );
-  }
+  if (loading) return <LoadingIndicator />;
+  if (error) return <ErrorAlert errorMessage={error} />;
 
   return (
     <Box sx={{ height: "100%" }}>
