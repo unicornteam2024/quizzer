@@ -20,6 +20,15 @@ import { quizService } from "../services/quizService";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ErrorAlert from "../components/ErrorAlert";
 
+const shuffleArray = (array) => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 const QuestionList = () => {
   const { id } = useParams();
   const [quiz, setQuiz] = useState([]);
@@ -40,10 +49,17 @@ const QuestionList = () => {
         setLoading(true);
         setError(null);
         const data = await quizService.getQuizById(id);
-        console.log("Quiz data received:", data); // Debugging
-        console.log("Questions received:", data.questions); // Debugging
+
+        // Randomize answers for each question
+        const questionsWithRandomizedAnswers = data.questions.map(
+          (question) => ({
+            ...question,
+            answers: shuffleArray(question.answers),
+          })
+        );
+
         setQuiz(data);
-        setQuestions(data.questions || []);
+        setQuestions(questionsWithRandomizedAnswers || []);
       } catch (err) {
         console.error("Error in loadQuestions:", err); // Debugging
         setError(err.message || "Failed to load questions");
@@ -99,7 +115,7 @@ const QuestionList = () => {
       </Typography>
       <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
         Added on: {formatDate(quiz.createdDate)} - Questions:{" "}
-        {quiz.questionCount}
+        {quiz.questionCount} - Category: {quiz.categoryName}
       </Typography>
     </>
   );
@@ -114,7 +130,7 @@ const QuestionList = () => {
             </Typography>
             <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
               Question {index + 1} of {questions.length} - Difficulty:{" "}
-              {question.difficulty} - Category: {quiz.categoryName}
+              {question.difficulty}
             </Typography>
 
             <RadioGroup
