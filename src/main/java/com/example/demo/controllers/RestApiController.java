@@ -37,16 +37,16 @@ public class RestApiController {
 
     @Autowired
     private QuizService quizService;
-    
+
     @Autowired
     private QuestionService questionService;
-    
+
     @Autowired
     private AnswerService answerService;
-    
+
     @Autowired
     private CategoryService categoryService;
-    
+
     @Autowired
     private AnswerHistoryService answerHistoryService;
 
@@ -103,6 +103,7 @@ public class RestApiController {
     public ResponseEntity<Question> getQuestionById(@PathVariable Long id) {
         return ResponseEntity.ok(questionService.findQuestionById(id));
     }
+
     @GetMapping("/quizzes/{quizId}/questions")
     public ResponseEntity<List<Question>> getQuizQuestions(@PathVariable Long quizId) {
         return ResponseEntity.ok(questionService.getQuestionsByQuizId(quizId));
@@ -126,6 +127,18 @@ public class RestApiController {
     @GetMapping("/questions/{questionId}/answers")
     public ResponseEntity<List<Answer>> getQuestionAnswers(@PathVariable Long questionId) {
         return ResponseEntity.ok(answerService.getAnswersByQuestionId(questionId));
+    }
+
+    @GetMapping("/answers/{answerId}/question")
+    public ResponseEntity<Map<String, Object>> getAnswerWithQuestion(@PathVariable Long answerId) {
+        Answer answer = answerService.findAnswerById(answerId);
+        Question question = answer.getQuestion();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("answer", answer);
+        response.put("question", question);
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/questions/{questionId}/answers")

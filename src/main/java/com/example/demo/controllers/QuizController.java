@@ -1,12 +1,15 @@
 package com.example.demo.controllers;
 
+import com.example.demo.entities.Category;
 import com.example.demo.entities.Quiz;
+import com.example.demo.services.CategoryService;
 import com.example.demo.services.QuizService;
 
 import jakarta.validation.Valid;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +26,15 @@ public class QuizController {
     @Autowired
     private QuizService quizService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     @GetMapping("/add-quiz")
     public String showAddQuizForm(Model model) {
+        List<Category> categories = categoryService.getAllCategories();
+
         model.addAttribute("quiz", new Quiz());
+        model.addAttribute("categories", categories);
         return "add-quiz";
     }
 
@@ -39,13 +48,19 @@ public class QuizController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") long id, Model model) {
+        List<Category> categories = categoryService.getAllCategories();
         Quiz quiz = quizService.findQuizById(id);
         model.addAttribute("quiz", quiz);
+        model.addAttribute("categories", categories);
         return "edit-quiz";
     }
 
-    @PostMapping("/edit/{id}") 
+    @PostMapping("/edit/{id}")
     public String updateBook(@PathVariable("id") long bookId, @Valid Quiz quiz, BindingResult result, Model model) {
+
+        if (quiz.getStatus() == null || quiz.getStatus().isEmpty()) {
+            quiz.setStatus("Draft");
+        }
         if (result.hasErrors()) {
             System.out.println("Validation errors occurred: " + result.getAllErrors());
             return "edit-quiz";
@@ -65,11 +80,12 @@ public class QuizController {
         }
     }
 
-    @GetMapping({"/", "/quizzes"})
+    @GetMapping({ "/", "/quizzes" })
     public String listQuizzes(@RequestParam(required = false, defaultValue = "ALL") String status, Model model) {
-        List<Quiz> quizzes = quizService.getQuizzesByStatus(status);
+        // Define the available statuses
         List<String> statuses = Arrays.asList("ALL", "PUBLISHED", "DRAFT");
-        
+        List<Map<String, Object>> quizzes = quizService.getQuizzesWithCategoryNamesByStatus(status);
+
         model.addAttribute("quizzes", quizzes);
         model.addAttribute("selectedStatus", status);
         model.addAttribute("statuses", statuses);

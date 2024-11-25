@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -6,26 +6,45 @@ import {
   Alert,
   AlertTitle,
 } from "@mui/material";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-material.css";
-import { AgGridReact } from "ag-grid-react";
 import { categoryService } from "../services/categoryService";
+import { useParams } from "react-router-dom";
+import { AgGridReact } from "ag-grid-react";
 
-const CategoryList = () => {
-  const [categories, setCategories] = useState([]);
+const CategoryDetails = () => {
+  const [category, setCategory] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const { id } = useParams();
+
+  useEffect(() => {
+    const getCategory = async () => {
+      try {
+        setLoading(true);
+        const data = await categoryService.getCategoryById(id);
+        setCategory(data);
+      } catch (error) {
+        setError(error.message || "Failed to load quizzes");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getCategory();
+  }, [id]);
+
   const columns = [
     {
-      field: "name",
+      field: "title",
+      headerName: "Quiz Title",
+      flex: 2,
       sortable: true,
       filter: true,
       floatingFilter: true,
       cellRenderer: (params) => {
         return (
           <a
-            href={`categories/${params.data.id}`}
+            href={`/quizzes/${params.data.id}/questions`}
             style={{
               color: "#1976d2",
               fontWeight: "bold",
@@ -38,28 +57,47 @@ const CategoryList = () => {
     },
     {
       field: "description",
+      headerName: "Description",
       flex: 3,
       sortable: true,
       filter: true,
       floatingFilter: true,
     },
+    {
+      field: "createdDate",
+      headerName: "Created",
+      flex: 1,
+      sortable: true,
+      filter: true,
+      floatingFilter: true,
+      valueFormatter: (params) => {
+        return new Date(params.value).toLocaleDateString();
+      },
+    },
+    {
+      field: "questionCount",
+      headerName: "Questions",
+      flex: 1,
+      sortable: true,
+      filter: true,
+      floatingFilter: true,
+    },
+    {
+      cellRenderer: () => {
+        return (
+          <a
+            href="#"
+            style={{
+              color: "#1976d2",
+              fontWeight: "bold",
+            }}
+          >
+            See results
+          </a>
+        );
+      },
+    },
   ];
-
-  useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        setLoading(true);
-        const data = await categoryService.getCategories();
-        setCategories(data);
-      } catch (err) {
-        setError(err.message || "Failed to load categories");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCategories();
-  }, []);
 
   if (loading) {
     return (
@@ -90,7 +128,10 @@ const CategoryList = () => {
   return (
     <Box sx={{ height: "100%" }}>
       <Typography variant="h4" gutterBottom>
-        Categories
+        {category.name}
+      </Typography>
+      <Typography variant="subtitle1" sx={{ marginBottom: "20px" }}>
+        {category.description}
       </Typography>
 
       <div
@@ -98,7 +139,7 @@ const CategoryList = () => {
         style={{ height: "500px", width: "100%" }}
       >
         <AgGridReact
-          rowData={categories}
+          rowData={category.quizzes}
           columnDefs={columns}
           pagination={true}
           paginationPageSize={10}
@@ -113,4 +154,4 @@ const CategoryList = () => {
   );
 };
 
-export default CategoryList;
+export default CategoryDetails;

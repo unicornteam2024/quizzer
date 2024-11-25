@@ -17,28 +17,33 @@ public class AnswerService {
 
     @Autowired
     private AnswerRepository answerRepository;
-    
+
     @Autowired
     private QuestionRepository questionRepository;
-    
+
     @Autowired
     private QuizRepository quizRepository;
 
     public Answer saveAnswer(Long questionId, String option, boolean isCorrect) {
         Question question = questionRepository.findById(questionId)
                 .orElseThrow(() -> new RuntimeException("Question not found"));
-        
+
         Answer answer = new Answer();
         answer.setOption(option);
         answer.setCorrect(isCorrect);
         answer.setQuestion(question);
-        
+
         return answerRepository.save(answer);
+    }
+
+    public Answer findAnswerById(Long id) {
+        return answerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Answer not found with id: " + id));
     }
 
     public Answer findById(Long id) {
         return answerRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Answer not found with id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Answer not found with id: " + id));
     }
 
     public Question getQuestionById(Long questionId) {
