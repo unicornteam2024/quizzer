@@ -9,6 +9,7 @@ import {
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import { AgGridReact } from "ag-grid-react";
+import { Link } from "react-router-dom";
 import { categoryService } from "../services/categoryService";
 
 const CategoryList = () => {
@@ -24,15 +25,15 @@ const CategoryList = () => {
       floatingFilter: true,
       cellRenderer: (params) => {
         return (
-          <a
-            href={`categories/${params.data.id}`}
+          <Link
+            to={`/categories/${params.data.id}`}
             style={{
               color: "#1976d2",
               fontWeight: "bold",
             }}
           >
             {params.value}
-          </a>
+          </Link>
         );
       },
     },

@@ -6,9 +6,9 @@ import {
   Alert,
   AlertTitle,
 } from "@mui/material";
-import { categoryService } from "../services/categoryService";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
+import { categoryService } from "../services/categoryService";
 
 const CategoryDetails = () => {
   const [category, setCategory] = useState({});
@@ -43,15 +43,15 @@ const CategoryDetails = () => {
       floatingFilter: true,
       cellRenderer: (params) => {
         return (
-          <a
-            href={`/quizzes/${params.data.id}/questions`}
+          <Link
+            to={`/quizzes/${params.data.id}/questions`}
             style={{
               color: "#1976d2",
               fontWeight: "bold",
             }}
           >
             {params.value}
-          </a>
+          </Link>
         );
       },
     },
@@ -83,17 +83,31 @@ const CategoryDetails = () => {
       floatingFilter: true,
     },
     {
-      cellRenderer: () => {
-        return (
-          <a
-            href="#"
+      headerName: "Resutls",
+      cellRenderer: (params) => {
+        const hasAnswers = params.data.questionCount > 0; // Basic check for possible results
+        return hasAnswers ? (
+          <Link
+            to={`/quizzes/${params.data.id}/results`}
             style={{
               color: "#1976d2",
-              fontWeight: "bold",
+              textDecoration: "underline",
+              cursor: "pointer",
             }}
           >
-            See results
-          </a>
+            View Results
+          </Link>
+        ) : (
+          <Typography
+            color="text.secondary"
+            sx={{
+              fontSize: "0.875rem",
+              cursor: "not-allowed",
+            }}
+            title="No results available - quiz has no questions yet"
+          >
+            No results
+          </Typography>
         );
       },
     },
