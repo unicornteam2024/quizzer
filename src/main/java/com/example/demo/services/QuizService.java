@@ -1,9 +1,5 @@
 package com.example.demo.services;
 
-import com.example.demo.entities.Quiz;
-import com.example.demo.repositories.QuestionRepository;
-import com.example.demo.repositories.QuizRepository;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +8,10 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.demo.entities.Quiz;
+import com.example.demo.repositories.QuestionRepository;
+import com.example.demo.repositories.QuizRepository;
 
 @Service
 public class QuizService {
@@ -23,7 +23,6 @@ public class QuizService {
     private QuestionRepository questionRepository;
 
     public Quiz createQuiz(Quiz quiz) {
-        // Validate quiz details (e.g., title and description should not be empty)
         if (quiz.getTitle() == null || quiz.getTitle().isEmpty()) {
             throw new IllegalArgumentException("Quiz title cannot be empty");
         }
@@ -31,23 +30,24 @@ public class QuizService {
             throw new IllegalArgumentException("Quiz description cannot be empty");
         }
 
-        // Set default status to "Draft" if not provided
         if (quiz.getStatus() == null || quiz.getStatus().isEmpty()) {
             quiz.setStatus("Draft");
         }
 
-        return quizRepository.save(quiz);
+        Quiz savedQuiz = quizRepository.save(quiz);
+        savedQuiz.setQuestionCount(savedQuiz.getQuestions().size()); // Set question count after saving
+        return savedQuiz;
     }
 
     public List<Quiz> getAllQuizzes() {
-        return quizRepository.findAll();
+        List<Quiz> quizzes = quizRepository.findAll();
+        quizzes.forEach(quiz -> quiz.setQuestionCount(quiz.getQuestions().size()));
+        return quizzes;
     }
 
     public Quiz findQuizById(Long id) {
         Quiz quiz = quizRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid id:" + id));
-
-        // Set question count based on actual questions list size
         quiz.setQuestionCount(quiz.getQuestions().size());
         return quiz;
     }
@@ -62,11 +62,8 @@ public class QuizService {
                     .collect(Collectors.toList());
         }
 
-        // Add question count for each quiz
-        for (Quiz quiz : quizzes) {
-            long questionCount = questionRepository.getQuestionCountByQuizId(quiz.getId());
-            quiz.setQuestionCount(questionCount);
-        }
+        // Set question count for each quiz
+        quizzes.forEach(quiz -> quiz.setQuestionCount(quiz.getQuestions().size()));
 
         return quizzes;
     }
@@ -80,13 +77,14 @@ public class QuizService {
             quizzes = quizRepository.findQuizzesWithCategoryNamesByStatus(status);
         }
 
-        // Converting each map into a mutable copy and add question count
         List<Map<String, Object>> mutableQuizzes = new ArrayList<>();
         for (Map<String, Object> quiz : quizzes) {
-            Map<String, Object> mutableQuiz = new HashMap<>(quiz); // Create a mutable copy
+            Map<String, Object> mutableQuiz = new HashMap<>(quiz);
             Long quizId = (Long) quiz.get("id");
-            long questionCount = questionRepository.getQuestionCountByQuizId(quizId);
-            mutableQuiz.put("questionCount", questionCount);
+            Quiz fullQuiz = quizRepository.findById(quizId).orElse(null);
+            if (fullQuiz != null) {
+                mutableQuiz.put("questionCount", fullQuiz.getQuestions().size());
+            }
             mutableQuizzes.add(mutableQuiz);
         }
 
@@ -94,7 +92,6 @@ public class QuizService {
     }
 
     public void deleteQuiz(Long id) {
-        // Check if quiz exists before attempting to delete
         if (!quizRepository.existsById(id)) {
             throw new IllegalArgumentException("Quiz not found with id: " + id);
         }
@@ -102,13 +99,14 @@ public class QuizService {
         try {
             quizRepository.deleteById(id);
         } catch (Exception e) {
-            // Log the error
             System.err.println("Error deleting quiz with id: " + id);
             throw new RuntimeException("Failed to delete quiz", e);
         }
     }
 
-    public void saveEditedQuiz(Quiz quiz) {
-        quizRepository.save(quiz);
+    public Quiz saveEditedQuiz(Quiz quiz) {
+        Quiz savedQuiz = quizRepository.save(quiz);
+        savedQuiz.setQuestionCount(savedQuiz.getQuestions().size());
+        return savedQuiz;
     }
 }
