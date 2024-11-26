@@ -2,7 +2,10 @@ package com.example.demo.controllers;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.HashMap;
@@ -211,7 +214,6 @@ public class RestApiController {
 
     @Tag(name = "Category")
     @Operation(summary = "Delete category", description = "Delete a category by ID")
-    @Tag(name = "Category")
     @DeleteMapping("/categories/{id}")
     public ResponseEntity<Void> deleteCategory(
             @Parameter(description = "ID of the category to delete")
