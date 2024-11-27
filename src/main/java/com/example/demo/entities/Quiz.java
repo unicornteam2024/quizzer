@@ -24,15 +24,15 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @JsonPropertyOrder({
-    "id", 
-    "title", 
-    "description",
-    "categoryId",
-    "categoryName", 
-    "createdDate", 
-    "status", 
-    "questionCount", 
-    "questions"
+        "id",
+        "title",
+        "description",
+        "categoryId",
+        "categoryName",
+        "createdDate",
+        "status",
+        "questionCount",
+        "questions"
 })
 public class Quiz {
 
@@ -55,7 +55,7 @@ public class Quiz {
     @Column(name = "created_date", updatable = false)
     private LocalDateTime createdDate;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "quiz-question")
     private List<Question> questions = new ArrayList<>();
 

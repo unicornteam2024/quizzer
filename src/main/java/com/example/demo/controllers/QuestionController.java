@@ -19,17 +19,17 @@ public class QuestionController {
 
     @Autowired
     private QuestionRepository qrepository;
-    
+
     @Autowired
     private QuestionService questionService;
-    
+
     @Autowired
     private QuizRepository repository;
 
     @RequestMapping(value = "/quizzes/{id}/questions", method = RequestMethod.GET)
-    public String viewQuestion(@PathVariable("id") Long id, 
-                             @RequestParam(required = false, defaultValue = "ALL") String difficulty,
-                             Model model) {
+    public String viewQuestion(@PathVariable("id") Long id,
+            @RequestParam(required = false, defaultValue = "ALL") String difficulty,
+            Model model) {
         Quiz quiz = repository.findById(id).orElse(null);
         List<Question> questions = qrepository.findByQuizIdAndDifficulty(id, difficulty);
         List<String> difficulties = Arrays.asList("ALL", "easy", "medium", "difficult");
@@ -40,9 +40,6 @@ public class QuestionController {
         model.addAttribute("selectedDifficulty", difficulty);
         return "questions";
     }
-
-
-
 
     @RequestMapping(value = "/add-question/{id}", method = RequestMethod.GET)
     public String showForm(@PathVariable("id") Long id, Model model) {
@@ -61,6 +58,7 @@ public class QuestionController {
 
     @RequestMapping(value = "/delete-question/{quizId}/{questionId}", method = RequestMethod.POST)
     public String deleteQuestion(@PathVariable Long questionId, @PathVariable Long quizId) {
+        System.out.println(questionId);
         questionService.deleteQuestion(questionId);
         return "redirect:/quizzes/" + quizId + "/questions";
     }
