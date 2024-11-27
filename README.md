@@ -19,8 +19,8 @@ Here is the link to the [Backlog](https://github.com/orgs/unicornteam2024/projec
 
 ## Deployment URL
 
-Here is the link to the backend [Quizzer - Teacher Dashboard](https://quizzer-c8si.onrender.com/)
-Here is the link to the frontend [Quizzer - Student Dashboard](https://quizzer-dumz.onrender.com/)
+- Here is the link to the backend [Quizzer - Teacher Dashboard](https://quizzer-c8si.onrender.com/)
+- Here is the link to the frontend [Quizzer - Student Dashboard](https://quizzer-dumz.onrender.com/)
 
 ## Developer Guide
 
