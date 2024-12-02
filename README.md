@@ -21,12 +21,14 @@ Here is the link to the [Backlog](https://github.com/orgs/unicornteam2024/projec
 
 - Here is the link to the backend [Quizzer - Teacher Dashboard](https://quizzer-c8si.onrender.com/)
 - Here is the link to the frontend [Quizzer - Student Dashboard](https://quizzer-dumz.onrender.com/)
+- Here is the Swagger Rest API Link [Quizzer - Swagger API Link](https://quizzer-c8si.onrender.com/swagger-ui/index.html#/)
 
 ## Developer Guide
 
 This guide provides instructions for setting up and running the application. It covers both backend and frontend parts, as well as the project's architecture.
 
 ### Project Architecture
+
 The project architecture consists of three main components:
 
 - **Database**: Stores data persistently. Different database platforms may be used in development and production environments.
@@ -34,6 +36,7 @@ The project architecture consists of three main components:
 - **Frontend**: The user interface (UI) written in React, where users interact with the application.
 
 #### Architecture Diagram
+
 ```mermaid
 flowchart TD
     Frontend["Frontend (React)"] --> Backend["Backend (Java, Spring Boot)"]
@@ -43,74 +46,82 @@ flowchart TD
 ### Backend
 
 #### Prerequistites
-- **Java Version**: The application requires **Java 17** to ensure accurate use. Please make sure you have the correct version installed on your machine.  
-  
+
+- **Java Version**: The application requires **Java 17** to ensure accurate use. Please make sure you have the correct version installed on your machine.
+
 #### Getting Started
 
 1. **Clone the Repository**  
-  Clone the project to your local machine using Git:  
-  git clone https://github.com/unicornteam2024/quizzer.git  
+   Clone the project to your local machine using Git:  
+   git clone https://github.com/unicornteam2024/quizzer.git
 
 2. **Navigate to the project Directory**  
-   `cd quizzer` 
-   
-4. **Build Application**  
+   `cd quizzer`
+3. **Build Application**  
    Compile and build the application using the following command:  
-   `./mvnw clean install`  
-   
-   Note: The command `./mvnw` uses the Maven Wrapper provided in the repository, which ensures consistency with the         Maven version used in the project. On Windows, use `mvnw.cmd` instead of `./mvnw`.  
-   
-5. **Run Application**  
-   `./mvnw spring-boot:run`  
-   
-6. **Verify Application Status**  
-   Once started, the application will be accessible at http://localhost:8080 by default (or another port if specified     in the configuration).  
-7. **Troubleshooting**  
+   `./mvnw clean install`
+
+   Note: The command `./mvnw` uses the Maven Wrapper provided in the repository, which ensures consistency with the Maven version used in the project. On Windows, use `mvnw.cmd` instead of `./mvnw`.
+
+4. **Run Application**  
+   `./mvnw spring-boot:run`
+5. **Verify Application Status**  
+   Once started, the application will be accessible at http://localhost:8080 by default (or another port if specified in the configuration).
+6. **Troubleshooting**  
    Ensure you are running the correct Java version. You can verify your Java version with:  
    `java version`  
    If you encounter issues with permissions for `./mvnw`, make it executable by running:  
     `chmod +x mvnw`
 
 ### Frontend
+
 #### Prerequisites
+
 - **Node.js**: Install the latest stable version of Node.js, which includes npm.
 
 #### Setting Up the Frontend
+
 1. **Navigate to the Frontend Directory**
-   
+
    The frontend code is located in the `student-dashboard` folder within the project.
-   
+
    `cd student-dashboard`
+
 2. **Install Dependencies**
-   
+
    Install the required npm packages:
 
    `npm install`
+
 3. **Start the Frontend Application**
 
-    Run the following command to start the frontend server:
+   Run the following command to start the frontend server:
 
-    `npm run dev`
+   `npm run dev`
 
-    The application will be accessible by default at http://localhost:5173.
+   The application will be accessible by default at http://localhost:5173.
 
 #### Technology Stack
+
 - **Programming Language**: JavaScript
 
 - **Framework**: React
 
 - **Major Libraries**:
-  
-    React Router for routing
 
-    Axios for API requests
+  React Router for routing
 
-    Other libraries as required by the project setup
+  Axios for API requests
+
+  Other libraries as required by the project setup
 
 ### Database Platforms
+
 - **Development Environment**: Uses an in-memory H2 database for quick setup.
 - **Production Environment**: Uses a PostgreSQL database for reliable data persistence.
+
 ### Data model
+
 ```mermaid
 erDiagram
     quiz {
