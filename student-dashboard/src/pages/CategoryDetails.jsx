@@ -32,6 +32,10 @@ const CategoryDetails = () => {
   if (loading) return <LoadingIndicator />;
   if (error) return <ErrorAlert errorMessage={error} />;
 
+  const publishedQuizzes = category.quizzes.filter(
+    (quiz) => quiz.status == "Published"
+  );
+
   return (
     <Box sx={{ height: "100%" }}>
       <Typography variant="h4" gutterBottom>
@@ -40,7 +44,7 @@ const CategoryDetails = () => {
       <Typography variant="subtitle1" sx={{ marginBottom: "20px" }}>
         {category.description}
       </Typography>
-      <QuizGrid quizzes={category.quizzes} />
+      <QuizGrid quizzes={publishedQuizzes} />
     </Box>
   );
 };
