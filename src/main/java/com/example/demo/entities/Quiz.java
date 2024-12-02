@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +31,9 @@ import jakarta.validation.constraints.Size;
         "createdDate",
         "status",
         "questionCount",
-        "questions"
+        "questions",
+        "averageRating",
+        "reviews"
 })
 public class Quiz {
 
@@ -59,30 +60,23 @@ public class Quiz {
     @JsonManagedReference(value = "quiz-question")
     private List<Question> questions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "quiz-review")
+    private List<Review> reviews = new ArrayList<>();
+
+    @Transient
+    private Double averageRating;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     @JsonBackReference(value = "category-quiz")
     private Category category;
 
-    // Add these transient fields for category info
-    @Transient
-    @JsonProperty("categoryId")
-    public Long getCategoryId() {
-        return category != null ? category.getId() : null;
-    }
-
-    @Transient
-    @JsonProperty("categoryName")
-    public String getCategoryName() {
-        return category != null ? category.getName() : null;
-    }
-
-    // Default constructor
+    // Constructors
     public Quiz() {
         this.createdDate = LocalDateTime.now();
     }
 
-    // Constructor with parameters
     public Quiz(String title, String description, String status) {
         this.title = title;
         this.description = description;
@@ -127,6 +121,10 @@ public class Quiz {
         return createdDate;
     }
 
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public long getQuestionCount() {
         if (questions != null) {
             return questions.size();
@@ -147,6 +145,28 @@ public class Quiz {
         this.questionCount = questions != null ? questions.size() : 0;
     }
 
+    public List<Review> getReviews() {
+        return reviews != null ? reviews : new ArrayList<>();
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public Double getAverageRating() {
+        if (reviews != null && !reviews.isEmpty()) {
+            return reviews.stream()
+                    .mapToDouble(Review::getRating)
+                    .average()
+                    .orElse(0.0);
+        }
+        return averageRating;
+    }
+
+    public void setAverageRating(Double averageRating) {
+        this.averageRating = averageRating;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -155,8 +175,15 @@ public class Quiz {
         this.category = category;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
+    @Transient
+    @JsonProperty("categoryId")
+    public Long getCategoryId() {
+        return category != null ? category.getId() : null;
     }
 
+    @Transient
+    @JsonProperty("categoryName")
+    public String getCategoryName() {
+        return category != null ? category.getName() : null;
+    }
 }
