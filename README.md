@@ -147,9 +147,23 @@ erDiagram
         varchar description
         varchar name
     }
-
+    answerHistory {
+        integer id PK
+        integer answer_id FK
+        timestamp submitted_at
+    }
+    review {
+        integer id PK
+        varchar comment
+        integer rating
+        timestamp created_date
+        integer quiz_id FK
+        varchar studentName
+    }
     category ||--o{ quiz : "has"
     quiz ||--o{ question : "contains"
     question ||--o{ answer : "has"
+    answer ||--o{ answerHistory : "tracks"
+    quiz ||--o{ review : "has"
 
 ```
