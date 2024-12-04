@@ -49,6 +49,7 @@ function App() {
               <Route path="/categories" element={<CategoryList />} />
               <Route path="/categories/:id" element={<CategoryDetails />} />
               <Route path="/quizzes/:id/reviews" element={<Reviews />} />
+              <Route path="/quizzes/:id/write-review" element={<AddReview />} />
             </Routes>
           </Layout>
         </div>
