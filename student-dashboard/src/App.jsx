@@ -7,6 +7,7 @@ import CategoryList from "./pages/CategoryList";
 import QuizResults from "./pages/QuizResults";
 import CategoryDetails from "./pages/CategoryDetails";
 import AddReview from "./pages/AddReview";
+import Reviews from "./pages/Reviews";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
@@ -47,7 +48,7 @@ function App() {
               <Route path="/quizzes/:id/results" element={<QuizResults />} />
               <Route path="/categories" element={<CategoryList />} />
               <Route path="/categories/:id" element={<CategoryDetails />} />
-              <Route path="/addingreview" element={<AddReview />} />
+              <Route path="/quizzes/:id/reviews" element={<Reviews />} />
             </Routes>
           </Layout>
         </div>

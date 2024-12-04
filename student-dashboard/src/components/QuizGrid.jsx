@@ -89,6 +89,23 @@ const QuizGrid = ({ quizzes }) => {
         );
       },
     },
+    {
+      headerName: "Reviews",
+      cellRenderer: (params) => {
+        return (
+          <Link
+            to={`/quizzes/${params.data.id}/reviews`}
+            style={{
+              color: "#1976d2",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
+          >
+            View Reviews
+          </Link>
+        );
+      },
+    },
   ];
 
   return (
