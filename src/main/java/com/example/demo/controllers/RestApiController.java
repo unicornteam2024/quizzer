@@ -40,6 +40,9 @@ public class RestApiController {
     @Autowired
     private AnswerHistoryService answerHistoryService;
 
+    @Autowired
+    private ReviewService reviewService;
+
     // Error handling
     @ExceptionHandler(IllegalArgumentException.class)
     @ApiResponse(responseCode = "400", description = "Bad Request")
@@ -62,8 +65,7 @@ public class RestApiController {
     @Operation(summary = "Get all quizzes", description = "Retrieve all quizzes with optional status filter")
     @GetMapping("/quizzes")
     public ResponseEntity<List<Quiz>> getAllQuizzes(
-            @Parameter(description = "Filter quizzes by status (ALL, PUBLISHED, DRAFT)")
-            @RequestParam(required = false, defaultValue = "ALL") String status) {
+            @Parameter(description = "Filter quizzes by status (ALL, PUBLISHED, DRAFT)") @RequestParam(required = false, defaultValue = "ALL") String status) {
         return ResponseEntity.ok(quizService.getQuizzesByStatus(status));
     }
 
@@ -71,41 +73,36 @@ public class RestApiController {
     @Operation(summary = "Get quiz by ID", description = "Retrieve a specific quiz by its ID")
     @GetMapping("/quizzes/{id}")
     public ResponseEntity<Quiz> getQuizById(
-            @Parameter(description = "ID of the quiz to retrieve")
-            @PathVariable Long id) {
+            @Parameter(description = "ID of the quiz to retrieve") @PathVariable Long id) {
         return ResponseEntity.ok(quizService.findQuizById(id));
     }
-    
+
     @Tag(name = "Quiz")
     @Operation(summary = "Create new quiz", description = "Create a new quiz")
     @PostMapping("/quizzes")
     public ResponseEntity<Quiz> createQuiz(
-            @Parameter(description = "Quiz object to create")
-            @RequestBody Quiz quiz) {
+            @Parameter(description = "Quiz object to create") @RequestBody Quiz quiz) {
         Quiz createdQuiz = quizService.createQuiz(quiz);
         return new ResponseEntity<>(createdQuiz, HttpStatus.CREATED);
     }
-    
+
     @Tag(name = "Quiz")
     @Operation(summary = "Update quiz", description = "Update an existing quiz")
     @PutMapping("/quizzes/{id}")
     public ResponseEntity<Quiz> updateQuiz(
-            @Parameter(description = "ID of the quiz to update")
-            @PathVariable Long id,
-            @Parameter(description = "Updated quiz object")
-            @RequestBody Quiz quiz) {
+            @Parameter(description = "ID of the quiz to update") @PathVariable Long id,
+            @Parameter(description = "Updated quiz object") @RequestBody Quiz quiz) {
         quizService.findQuizById(id);
         quiz.setId(id);
         quizService.saveEditedQuiz(quiz);
         return ResponseEntity.ok(quiz);
     }
-    
+
     @Tag(name = "Quiz")
     @Operation(summary = "Delete quiz", description = "Delete a quiz by ID")
     @DeleteMapping("/quizzes/{id}")
     public ResponseEntity<Void> deleteQuiz(
-            @Parameter(description = "ID of the quiz to delete")
-            @PathVariable Long id) {
+            @Parameter(description = "ID of the quiz to delete") @PathVariable Long id) {
         quizService.deleteQuiz(id);
         return ResponseEntity.noContent().build();
     }
@@ -124,7 +121,7 @@ public class RestApiController {
     public ResponseEntity<List<Question>> getQuizQuestions(@PathVariable Long quizId) {
         return ResponseEntity.ok(questionService.getQuestionsByQuizId(quizId));
     }
-    
+
     @Tag(name = "Question")
     @Operation(summary = "Create question", description = "Create a new question for a quiz")
     @PostMapping("/quizzes/{quizId}/questions")
@@ -216,8 +213,7 @@ public class RestApiController {
     @Operation(summary = "Delete category", description = "Delete a category by ID")
     @DeleteMapping("/categories/{id}")
     public ResponseEntity<Void> deleteCategory(
-            @Parameter(description = "ID of the category to delete")
-            @PathVariable Long id) {
+            @Parameter(description = "ID of the category to delete") @PathVariable Long id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.noContent().build();
     }
@@ -247,5 +243,23 @@ public class RestApiController {
     @GetMapping("/answer-history/{id}")
     public ResponseEntity<AnswerHistory> getAnswerHistoryById(@PathVariable Long id) {
         return ResponseEntity.ok(answerHistoryService.findById(id));
+    }
+
+    @Tag(name = "Review")
+    @Operation(summary = "Get quiz review", description = "Retrieve a specific quiz review")
+    @GetMapping("/quizzes/{id}/review")
+    public ResponseEntity<List<Review>> getReviewsByQuizId(
+            @Parameter(description = "ID of the quiz review to retrieve") @PathVariable Long id) {
+        return ResponseEntity.ok(reviewService.getReviewsByQuizId(id));
+    }
+
+    @Tag(name = "Review")
+    @Operation(summary = "Create quiz review", description = "Create a new quiz review")
+    @PostMapping("/quizzes/{id}/review")
+    public ResponseEntity<Review> createReview(
+            @PathVariable("id") Long quizId,
+            @RequestBody Review review) {
+        Review newReview = reviewService.createReview(review, quizId);
+        return new ResponseEntity<>(newReview, HttpStatus.CREATED);
     }
 }
