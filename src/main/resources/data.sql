@@ -1,3 +1,5 @@
+DELETE FROM review;
+ALTER TABLE review ALTER COLUMN id RESTART WITH 1;
 DELETE FROM ANSWER_HISTORY;
 ALTER TABLE ANSWER_HISTORY ALTER COLUMN id RESTART WITH 1;
 DELETE FROM answers;
@@ -311,3 +313,20 @@ INSERT INTO answers (option, is_correct, question_id) VALUES
 ('Adding "not" before verb', false, 40),
 ('Using past participle', false, 40),
 ('Adding "-ton/-tön"', false, 40);
+
+INSERT INTO review (created_date, comment, rating, student_name, quiz_id) VALUES 
+-- Reviews for Java Basics (quiz_id = 1)
+(CURRENT_TIMESTAMP(), 'Great introduction to Java! Helped me understand the basics.', 5, 'coder123', 1),
+(CURRENT_TIMESTAMP(), 'Clear explanations, but could use more examples.', 4, 'dev_guru', 1),
+(CURRENT_TIMESTAMP(), 'Too basic for those with prior programming experience.', 3, 'java_ninja', 1),
+-- Reviews for Python Essentials (quiz_id = 2)
+(CURRENT_TIMESTAMP(), 'Well-made quiz, but a bit dry at times.', 4, 'python_enthusiast', 2),
+-- Reviews for Ancient Civilizations (quiz_id = 3)
+(CURRENT_TIMESTAMP(), 'A fascinating dive into history, highly recommend!', 5, 'history_buff', 3),
+(CURRENT_TIMESTAMP(), 'Interesting topics, but needs more real-world examples.', 4, 'study_hard', 3),
+(CURRENT_TIMESTAMP(), 'The content was good, but the questions were a bit repetitive.', 3, 'history_lover', 3),
+-- Reviews for World Wars (quiz_id = 4)
+(CURRENT_TIMESTAMP(), 'Engaging content and great examples, learned a lot.', 5, 'global_thinker', 4),
+(CURRENT_TIMESTAMP(), 'A good overview, but could have gone deeper into specific battles.', 4, 'war_buff', 4),
+(CURRENT_TIMESTAMP(), 'Some of the content was too basic, not enough in-depth analysis.', 3, 'history_explorer', 4),
+(CURRENT_TIMESTAMP(), 'Too basic for me', 1, 'history_lover', 4);
