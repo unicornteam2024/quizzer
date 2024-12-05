@@ -1,13 +1,5 @@
 package com.example.demo.controllers;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +7,36 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entities.*;
-import com.example.demo.services.*;
+import com.example.demo.entities.Answer;
+import com.example.demo.entities.AnswerHistory;
+import com.example.demo.entities.Category;
+import com.example.demo.entities.Question;
+import com.example.demo.entities.Quiz;
+import com.example.demo.entities.Review;
+import com.example.demo.services.AnswerHistoryService;
+import com.example.demo.services.AnswerService;
+import com.example.demo.services.CategoryService;
+import com.example.demo.services.QuestionService;
+import com.example.demo.services.QuizService;
+import com.example.demo.services.ReviewService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -245,6 +263,22 @@ public class RestApiController {
         return ResponseEntity.ok(answerHistoryService.findById(id));
     }
 
+    @Tag(name = "Review", description = "Operations about Reviews")
+    @Operation(summary = "Get quiz reviews with stats", description = "Retrieve all reviews and statistics for a quiz")
+    @GetMapping("/quizzes/{quizId}/reviews")
+    public ResponseEntity<Map<String, Object>> getQuizReviews(
+            @Parameter(description = "ID of the quiz") @PathVariable Long quizId) {
+        List<Review> reviews = reviewService.getReviewsByQuizId(quizId);
+        Double averageRating = reviewService.getAverageRatingByQuizId(quizId);
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("reviews", reviews);
+        response.put("averageRating", averageRating != null ? averageRating : 0.0);
+        response.put("totalReviews", reviews.size());
+        
+        return ResponseEntity.ok(response);
+    }
+
     @Tag(name = "Review")
     @Operation(summary = "Get quiz review", description = "Retrieve a specific quiz review")
     @GetMapping("/quizzes/{id}/review")
@@ -262,4 +296,24 @@ public class RestApiController {
         Review newReview = reviewService.createReview(review, quizId);
         return new ResponseEntity<>(newReview, HttpStatus.CREATED);
     }
+    
+    @Tag(name = "Review")
+    @Operation(summary = "Update review", description = "Update an existing review")
+    @PutMapping("/reviews/{id}")
+    public ResponseEntity<Review> updateReview(
+            @Parameter(description = "ID of the review") @PathVariable Long id,
+            @Parameter(description = "Updated review details") @Valid @RequestBody Review review) {
+        review.setId(id);
+        return ResponseEntity.ok(reviewService.updateReview(review));
+    }
+
+    @Tag(name = "Review")
+    @Operation(summary = "Delete review", description = "Delete a review")
+    @DeleteMapping("/reviews/{id}")
+    public ResponseEntity<Void> deleteReview(
+            @Parameter(description = "ID of the review") @PathVariable Long id) {
+        reviewService.deleteReview(id);
+        return ResponseEntity.noContent().build();
+    }
+    
 }
