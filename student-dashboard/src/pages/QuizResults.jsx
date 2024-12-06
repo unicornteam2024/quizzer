@@ -136,7 +136,13 @@ export default function QuizResults() {
           <Grid item xs={12} key={question.questionId}>
             <Card>
               <CardContent>
-                <Box sx={{ mb: 2 }}>
+                <Box
+                  sx={{
+                    mb: 2,
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <Typography
                     variant="subtitle1"
                     sx={{ fontWeight: "bold", mb: 1 }}
