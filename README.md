@@ -55,23 +55,34 @@ flowchart TD
    Clone the project to your local machine using Git:  
    git clone https://github.com/unicornteam2024/quizzer.git
 
-2. **Navigate to the project Directory**  
-   `cd quizzer`
+2. **Navigate to the project Directory**
+   ```bash
+   cd quizzer
+   ```
 3. **Build Application**  
-   Compile and build the application using the following command:  
-   `./mvnw clean install`
+   Compile and build the application using the following command:
+
+   ```bash
+   ./mvnw clean install
+   ```
 
    Note: The command `./mvnw` uses the Maven Wrapper provided in the repository, which ensures consistency with the Maven version used in the project. On Windows, use `mvnw.cmd` instead of `./mvnw`.
 
-4. **Run Application**  
-   `./mvnw spring-boot:run`
+4. **Run Application**
+   ```bash
+   ./mvnw spring-boot:run
+   ```
 5. **Verify Application Status**  
    Once started, the application will be accessible at http://localhost:8080 by default (or another port if specified in the configuration).
 6. **Troubleshooting**  
-   Ensure you are running the correct Java version. You can verify your Java version with:  
-   `java version`  
-   If you encounter issues with permissions for `./mvnw`, make it executable by running:  
-    `chmod +x mvnw`
+   Ensure you are running the correct Java version. You can verify your Java version with:
+   ```bash
+   java version
+   ```
+   If you encounter issues with permissions for `./mvnw`, make it executable by running:
+   ```bash
+   chmod +x mvnw
+   ```
 
 ### Frontend
 
