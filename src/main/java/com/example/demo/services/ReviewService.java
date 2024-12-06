@@ -44,12 +44,20 @@ public class ReviewService {
     }
 
     public Review updateReview(Review review) {
-        if (!reviewRepository.existsById(review.getId())) {
-            throw new IllegalArgumentException("Review not found with id: " + review.getId());
-        }
+        Review existingReview = reviewRepository.findById(review.getId())
+            .orElseThrow(() -> new IllegalArgumentException("Review not found with id: " + review.getId()));
+        
+        // Preserve quiz relationship
+        review.setQuiz(existingReview.getQuiz());
+        
+        // Update fields
+        review.setRating(review.getRating());
+        review.setComment(review.getComment());
+        review.setStudentName(review.getStudentName());
+        review.setCreatedDate(existingReview.getCreatedDate());
+        
         return reviewRepository.save(review);
     }
-
     public Double getAverageRatingByQuizId(Long quizId) {
         return reviewRepository.getAverageRatingByQuizId(quizId);
     }

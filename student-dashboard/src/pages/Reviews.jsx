@@ -43,21 +43,15 @@ const Reviews = () => {
   const handleUpdateReview = async (updatedData) => {
     try {
       setLoading(true);
-      console.log("Updating review with data:", { ...updatedData, quizId });
+      await reviewService.updateReview(editingReview.id, updatedData);
 
-      await reviewService.updateReview(editingReview.id, updatedData, quizId);
-      console.log("Review updated, fetching new reviews...");
-
-      // Fetch fresh reviews data
+      // Fetch updated reviews
       const updatedReviewsData = await reviewService.getQuizReviews(quizId);
-      console.log("Received updated reviews:", updatedReviewsData);
-
       setReviewStats(updatedReviewsData);
       setReviews(updatedReviewsData.reviews || []);
 
       handleCloseEditModal();
     } catch (err) {
-      console.error("Error updating review:", err);
       setError(err.message || "Failed to update review");
     } finally {
       setLoading(false);
