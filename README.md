@@ -101,7 +101,7 @@ flowchart TD
 
    The application will be accessible by default at http://localhost:5173.
 
-## Developer Guide
+## Test
 
 ### Running Tests
 
