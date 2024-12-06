@@ -137,7 +137,13 @@ public class RestApiController {
     @Operation(summary = "Get questions by quiz", description = "Retrieve all questions for a specific quiz")
     @GetMapping("/quizzes/{quizId}/questions")
     public ResponseEntity<List<Question>> getQuizQuestions(@PathVariable Long quizId) {
-        return ResponseEntity.ok(questionService.getQuestionsByQuizId(quizId));
+        try {
+            // First check if quiz exists
+            quizService.findQuizById(quizId);
+            return ResponseEntity.ok(questionService.getQuestionsByQuizId(quizId));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @Tag(name = "Question")
