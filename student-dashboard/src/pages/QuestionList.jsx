@@ -15,6 +15,7 @@ import {
   DialogContentText,
   DialogActions,
   Paper,
+  LinearProgress,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { quizService } from "../services/quizService";
@@ -43,6 +44,7 @@ const QuestionList = () => {
   const [error, setError] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [answeredQuestions, setAnsweredQuestions] = useState(new Set());
+  const [feedback, setFeedback] = useState({});
   const [feedbackDialog, setFeedbackDialog] = useState({
     open: false,
     message: "",
@@ -57,7 +59,6 @@ const QuestionList = () => {
         setError(null);
         const data = await quizService.getQuizById(id);
 
-        // Randomize answers for each question
         const questionsWithRandomizedAnswers = data.questions.map(
           (question) => ({
             ...question,
@@ -92,6 +93,11 @@ const QuestionList = () => {
       if (!answerId) return;
 
       const response = await quizService.submitAnswer(questionId, answerId);
+      setFeedback((prev) => ({
+        ...prev,
+        [questionId]: { isCorrect: response.correct },
+      }));
+
       setFeedbackDialog({
         open: true,
         message: response.message,
@@ -99,7 +105,6 @@ const QuestionList = () => {
         questionId,
       });
 
-      // Mark question as answered
       setAnsweredQuestions((prev) => new Set([...prev, questionId]));
     } catch (err) {
       setError(`Failed to submit answer: ${err.message}`);
@@ -136,10 +141,58 @@ const QuestionList = () => {
     </>
   );
 
+  const renderProgressSummary = () => {
+    const total = questions.length;
+    const answered = answeredQuestions.size;
+    const correct = Object.values(feedback).filter((f) => f.isCorrect).length;
+    const incorrect = answered - correct;
+    const remaining = total - answered;
+    const progress = (answered / total) * 100;
+
+    return (
+      <Paper
+        elevation={3}
+        sx={{
+          p: 2,
+          mb: 3,
+          bgcolor: "background.paper",
+          position: "sticky",
+          top: 16,
+          zIndex: 1100,
+        }}
+      >
+        <Box sx={{ display: "flex", justifyContent: "space-around", mb: 1 }}>
+          {[
+            { label: "Total", value: total, color: "primary.main" },
+            { label: "Remaining", value: remaining, color: "info.main" },
+            { label: "Correct", value: correct, color: "success.main" },
+            { label: "Incorrect", value: incorrect, color: "error.main" },
+          ].map(({ label, value, color }) => (
+            <Box key={label} sx={{ textAlign: "center" }}>
+              <Typography variant="h6" sx={{ color }}>
+                {value}
+              </Typography>
+              <Typography color="text.secondary">{label}</Typography>
+            </Box>
+          ))}
+        </Box>
+        <LinearProgress
+          variant="determinate"
+          value={progress}
+          sx={{ height: 10, borderRadius: 5 }}
+        />
+        <Typography align="center" sx={{ mt: 1 }}>
+          Progress: {Math.round(progress)}%
+        </Typography>
+      </Paper>
+    );
+  };
+
   const renderQuestions = () => (
     <Box sx={{ minWidth: 275, mb: 2 }}>
       {questions.map((question, index) => {
         const answered = isQuestionAnswered(question.id);
+        const isCorrect = feedback[question.id]?.isCorrect;
 
         return (
           <Card
@@ -149,6 +202,9 @@ const QuestionList = () => {
               mb: 2,
               opacity: answered ? 0.7 : 1,
               transition: "opacity 0.3s",
+              borderLeft: answered
+                ? `6px solid ${isCorrect ? "#4caf50" : "#f44336"}`
+                : "none",
             }}
           >
             <CardContent>
@@ -163,11 +219,11 @@ const QuestionList = () => {
                     component="span"
                     sx={{
                       ml: 2,
-                      color: "text.secondary",
-                      fontStyle: "italic",
+                      color: isCorrect ? "success.main" : "error.main",
+                      fontWeight: "bold",
                     }}
                   >
-                    (Answered)
+                    ({isCorrect ? "Correct" : "Incorrect"})
                   </Typography>
                 )}
               </Typography>
@@ -250,6 +306,7 @@ const QuestionList = () => {
   return (
     <div>
       {renderQuizInfo()}
+      {renderProgressSummary()}
       {questions.length > 0 ? (
         <>
           {renderQuestions()}

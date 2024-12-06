@@ -74,7 +74,7 @@ export default function QuizResults() {
         sx={{ display: "flex", alignItems: "center", gap: 2 }}
       >
         <AssessmentIcon fontSize="large" />
-        Quiz Statistics
+        {stats.quizTitle} Statistics
       </Typography>
 
       {/* Overall Statistics */}

@@ -64,6 +64,13 @@ export const quizResultsService = {
 
   getQuizStatistics: async (quizId) => {
     try {
+      // Get quiz details
+      const quizResponse = await fetch(`${API_BASE_URL}/quizzes/${quizId}`);
+      if (!quizResponse.ok) {
+        throw new Error("Failed to fetch quiz");
+      }
+      const quiz = await quizResponse.json();
+
       // Get questions
       const questionsResponse = await fetch(
         `${API_BASE_URL}/quizzes/${quizId}/questions`
@@ -114,6 +121,7 @@ export const quizResultsService = {
       );
 
       return {
+        quizTitle: quiz.title,
         totalQuestions: questions.length,
         totalAnswers,
         correctAnswers: totalCorrect,
