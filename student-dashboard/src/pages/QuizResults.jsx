@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { quizResultsService } from "../services/quizResultsService";
 import {
   Box,
   Typography,
   Paper,
+  Button,
   Grid,
   Alert,
   Card,
@@ -17,11 +18,13 @@ import {
   Help as HelpIcon,
   Check as CheckIcon,
   Close as CloseIcon,
+  ArrowBack as ArrowBackIcon,
 } from "@mui/icons-material";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ErrorAlert from "../components/ErrorAlert";
 
 export default function QuizResults() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -68,14 +71,24 @@ export default function QuizResults() {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography
-        variant="h4"
-        gutterBottom
-        sx={{ display: "flex", alignItems: "center", gap: 2 }}
-      >
-        <AssessmentIcon fontSize="large" />
-        {stats.quizTitle} Statistics
-      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
+        <Typography
+          variant="h4"
+          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+        >
+          <AssessmentIcon fontSize="large" />
+          {stats.quizTitle} Statistics
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<ArrowBackIcon />}
+          onClick={() => navigate(`/quizzes/${id}/questions`)}
+          aria-label="back to questions"
+        >
+          Goto Questions
+        </Button>
+      </Box>
 
       {/* Overall Statistics */}
       <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
