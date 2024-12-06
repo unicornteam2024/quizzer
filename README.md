@@ -45,11 +45,11 @@ flowchart TD
 
 ### Backend
 
-#### Prerequistites
+##### Prerequistites
 
 - **Java Version**: The application requires **Java 17** to ensure accurate use. Please make sure you have the correct version installed on your machine.
 
-#### Getting Started
+##### Getting Started
 
 1. **Clone the Repository**  
    Clone the project to your local machine using Git:  
@@ -101,9 +101,9 @@ flowchart TD
 
    The application will be accessible by default at http://localhost:5173.
 
-## Test
+### Test
 
-### Running Tests
+#### Running Tests
 
 Run all tests using Maven:
 
@@ -125,7 +125,7 @@ mvn test -Dtest=RestApiControllerTest#getQuestionsByQuizIdReturnsErrorWhenQuizDo
 
 Tests use H2 in-memory database to avoid affecting the development database.
 
-#### Technology Stack
+### Technology Stack
 
 - **Programming Language**: JavaScript
 
