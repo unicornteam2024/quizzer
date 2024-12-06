@@ -101,6 +101,30 @@ flowchart TD
 
    The application will be accessible by default at http://localhost:5173.
 
+## Developer Guide
+
+### Running Tests
+
+Run all tests using Maven:
+
+```bash
+mvn test
+```
+
+Run specific test class:
+
+```bash
+mvn test -Dtest=RestApiControllerTest
+```
+
+Run specific test method:
+
+```bash
+mvn test -Dtest=RestApiControllerTest#getQuestionsByQuizIdReturnsErrorWhenQuizDoesNotExist
+```
+
+Tests use H2 in-memory database to avoid affecting the development database.
+
 #### Technology Stack
 
 - **Programming Language**: JavaScript
@@ -167,5 +191,7 @@ erDiagram
     quiz ||--o{ review : "has"
 
 ```
+
 ### License
+
 Quizzer is [MIT licensed](https://github.com/unicornteam2024/quizzer/blob/main/LICENSE).
