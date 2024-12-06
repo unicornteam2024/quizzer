@@ -168,4 +168,4 @@ erDiagram
 
 ```
 ### License
-Quizzer is MIT licensed: []
+Quizzer is [MIT licensed](https://github.com/unicornteam2024/quizzer/blob/main/LICENSE).
