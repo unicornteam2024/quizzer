@@ -315,5 +315,19 @@ public class RestApiController {
         reviewService.deleteReview(id);
         return ResponseEntity.noContent().build();
     }
+
+    @Tag(name = "Review")
+    @Operation(summary = "Get review by ID", description = "Retrieve a specific review by its ID")
+    @GetMapping("/reviews/{id}")
+    public ResponseEntity<Review> getReviewById(
+            @Parameter(description = "ID of the review to retrieve") 
+            @PathVariable Long id) {
+        try {
+            Review review = reviewService.getReviewById(id);
+            return ResponseEntity.ok(review);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
     
 }
