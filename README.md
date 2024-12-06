@@ -85,19 +85,25 @@ flowchart TD
 
    The frontend code is located in the `student-dashboard` folder within the project.
 
-   `cd student-dashboard`
+   ```bash
+   cd student-dashboard
+   ```
 
 2. **Install Dependencies**
 
    Install the required npm packages:
 
-   `npm install`
+   ```bash
+   npm install
+   ```
 
 3. **Start the Frontend Application**
 
    Run the following command to start the frontend server:
 
-   `npm run dev`
+   ```bash
+   npm run dev
+   ```
 
    The application will be accessible by default at http://localhost:5173.
 
