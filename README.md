@@ -167,3 +167,5 @@ erDiagram
     quiz ||--o{ review : "has"
 
 ```
+### License
+Quizzer is MIT licensed: []
