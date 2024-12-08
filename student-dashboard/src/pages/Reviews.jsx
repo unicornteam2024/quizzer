@@ -7,15 +7,17 @@ import {
   CardContent,
   Alert,
   IconButton,
+  Button,
 } from "@mui/material";
 import { Clear, Edit } from "@mui/icons-material";
 import { useEffect, useState, useCallback } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { quizService } from "../services/quizService";
 import { reviewService } from "../services/reviewService";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ErrorAlert from "../components/ErrorAlert";
 import EditReviewForm from "../components/EditReviewForm";
+import ReviewForm from "../components/ReviewForm";
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -24,6 +26,7 @@ const Reviews = () => {
   const [error, setError] = useState(null);
   const [editingReview, setEditingReview] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [reviewStats, setReviewStats] = useState({
     totalReviews: 0,
     averageRating: 0,
@@ -93,6 +96,18 @@ const Reviews = () => {
     loadReviews();
   };
 
+  const handleSubmit = async (formData) => {
+    try {
+      await reviewService.writeReview(quizId, formData);
+      setIsFormOpen(false);
+      // Refresh reviews list
+      loadReviews();
+      return true;
+    } catch (error) {
+      throw new Error(error.message || "Failed to create review");
+    }
+  };
+
   if (loading) return <LoadingIndicator />;
   if (error) return <ErrorAlert errorMessage={error} />;
 
@@ -111,15 +126,21 @@ const Reviews = () => {
       </Typography>
 
       <Box sx={{ mb: 2 }}>
-        <Link
-          to={`/quizzes/${quizId}/write-review`}
-          style={{
-            color: "#1976d2",
-          }}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setIsFormOpen(true)}
         >
-          WRITE YOUR REVIEW
-        </Link>
+          Write Your Review
+        </Button>
       </Box>
+
+      <ReviewForm
+        open={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        onSubmit={handleSubmit}
+        mode="add"
+      />
 
       {!reviews?.length ? (
         <Box>
