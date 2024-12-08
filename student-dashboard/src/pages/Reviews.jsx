@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { Clear, Edit } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import { quizService } from "../services/quizService";
 import { reviewService } from "../services/reviewService";
@@ -60,33 +60,39 @@ const Reviews = () => {
 
   const { id: quizId } = useParams();
 
-  useEffect(() => {
-    const loadReviews = async () => {
-      try {
-        setLoading(true);
-        // Get quiz title
-        const quizData = await quizService.getQuizById(quizId);
-        console.log("Quiz data:", quizData);
-        setQuizTitle(quizData.title);
+  const loadReviews = useCallback(async () => {
+    try {
+      setLoading(true);
+      // Get quiz title
+      const quizData = await quizService.getQuizById(quizId);
+      console.log("Quiz data:", quizData);
+      setQuizTitle(quizData.title);
 
-        // Get reviews using new endpoint
-        const reviewsData = await reviewService.getQuizReviews(quizId);
-        console.log("Reviews data:", reviewsData);
+      // Get reviews using new endpoint
+      const reviewsData = await reviewService.getQuizReviews(quizId);
+      console.log("Reviews data:", reviewsData);
 
-        // Update with the full stats object
-        setReviewStats(reviewsData);
-        // Set reviews array for the list
-        setReviews(reviewsData.reviews || []);
-      } catch (err) {
-        console.error("Error loading reviews:", err);
-        setError(err.message || "Failed to load reviews");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadReviews();
+      // Update with the full stats object
+      setReviewStats(reviewsData);
+      // Set reviews array for the list
+      setReviews(reviewsData.reviews || []);
+    } catch (err) {
+      console.error("Error loading reviews:", err);
+      setError(err.message || "Failed to load reviews");
+    } finally {
+      setLoading(false);
+    }
   }, [quizId]);
+
+  useEffect(() => {
+    loadReviews();
+  }, [loadReviews]);
+
+  const handleDeleteReview = (reviewId) => {
+    reviewService.deleteReview(reviewId);
+    loadReviews();
+  };
+
   if (loading) return <LoadingIndicator />;
   if (error) return <ErrorAlert errorMessage={error} />;
 
@@ -133,7 +139,12 @@ const Reviews = () => {
                     >
                       <Edit />
                     </IconButton>
-                    <IconButton aria-label="delete">
+                    <IconButton
+                      aria-label="delete"
+                      onClick={() => {
+                        handleDeleteReview(review.id);
+                      }}
+                    >
                       <Clear />
                     </IconButton>
                   </Box>
