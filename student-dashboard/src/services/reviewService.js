@@ -75,7 +75,6 @@ async function deleteReview(reviewId) {
 
 async function getQuizReviews(quizId) {
   const url = `${API_BASE_URL}/quizzes/${quizId}/reviews`;
-  console.log("Fetching reviews from:", url);
   try {
     const response = await fetch(url);
     if (!response.ok) {

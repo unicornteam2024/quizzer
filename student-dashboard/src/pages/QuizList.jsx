@@ -1,22 +1,11 @@
 import { useState, useEffect } from "react";
-// import { fetchPublishedQuizzes } from "../services/mockQuizService";
 import { quizService } from "../services/quizService";
-// import { quizResultsService } from "../services/quizResultsService";
 import { Box, Typography } from "@mui/material";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import QuizGrid from "../components/QuizGrid";
 import LoadingIndicator from "../components/LoadingIndicator";
 import ErrorAlert from "../components/ErrorAlert";
-
-// const testQuizResults = async (quizId) => {
-//   try {
-//     const results = await quizResultsService.getQuizStatistics(quizId);
-//     console.log("Quiz Results:", results);
-//   } catch (error) {
-//     console.error("Error testing quiz results:", error);
-//   }
-// };
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);

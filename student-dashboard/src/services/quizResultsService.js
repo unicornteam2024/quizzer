@@ -54,7 +54,6 @@ export const quizResultsService = {
         questionIds.has(history.answerDetails.question.id)
       );
 
-      console.log("Enriched quiz history:", quizHistory);
       return quizHistory;
     } catch (error) {
       console.error("Error fetching quiz answer history:", error);
