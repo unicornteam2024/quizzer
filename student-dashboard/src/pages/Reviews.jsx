@@ -90,8 +90,10 @@ const Reviews = () => {
   }, [loadReviews]);
 
   const handleDeleteReview = (reviewId) => {
-    reviewService.deleteReview(reviewId);
-    loadReviews();
+    if (confirm("Are you sure you want to delete this review?")) {
+      reviewService.deleteReview(reviewId);
+      loadReviews();
+    }
   };
 
   const handleSubmit = async (formData) => {
@@ -171,7 +173,10 @@ const Reviews = () => {
                   <Typography variant="body1" sx={{ mt: 1, mb: 1 }}>
                     Rating: {review.rating}/5
                   </Typography>
-                  <Typography variant="body1" sx={{ mt: 1, mb: 1 }}>
+                  <Typography
+                    variant="body1"
+                    sx={{ mt: 1, mb: 1, wordWrap: "break-word" }}
+                  >
                     {review.comment}
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
