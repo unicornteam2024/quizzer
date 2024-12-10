@@ -68,12 +68,10 @@ const Reviews = () => {
       setLoading(true);
       // Get quiz title
       const quizData = await quizService.getQuizById(quizId);
-      console.log("Quiz data:", quizData);
       setQuizTitle(quizData.title);
 
       // Get reviews using new endpoint
       const reviewsData = await reviewService.getQuizReviews(quizId);
-      console.log("Reviews data:", reviewsData);
 
       // Update with the full stats object
       setReviewStats(reviewsData);
