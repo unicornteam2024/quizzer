@@ -1,5 +1,4 @@
 import { handleResponse } from "./utils";
-import { getMockQuestionAnswers } from "./mockQuizData";
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -68,8 +67,13 @@ export const quizService = {
 
   getQuestionAnswers: async (quizId, questionId) => {
     try {
-      // Using mock data instead of API call
-      return getMockQuestionAnswers(quizId, questionId);
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/questions/${questionId}/answers`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch answers");
+      }
+      return response.json();
     } catch (error) {
       console.error("Error fetching answers:", error);
       throw error;
