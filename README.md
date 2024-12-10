@@ -131,13 +131,29 @@ mvn test
 Run specific test class:
 
 ```bash
-mvn test -Dtest=RestApiControllerTest
+mvn test -Dtest=QuestionRestApiControllerTest
+```
+
+```bash
+mvn test -Dtest=CategoryRestApiControllerTest
+```
+
+```bash
+mvn test -Dtest=AnswerRestApiControllerTest
 ```
 
 Run specific test method:
 
 ```bash
-mvn test -Dtest=RestApiControllerTest#getQuestionsByQuizIdReturnsErrorWhenQuizDoesNotExist
+mvn test -Dtest=QuestionRestApiControllerTest#getQuestionsByQuizIdReturnsErrorWhenQuizDoesNotExist
+```
+
+```bash
+mvn test -Dtest=QuizRestApiControllerTest#getAllQuizzesDoesNotReturnUnpublishedQuizzes
+```
+
+```bash
+mvn test -Dtest=ReviewRestApiControllerTest#createReviewCreatesNewReview
 ```
 
 Tests use H2 in-memory database to avoid affecting the development database.
