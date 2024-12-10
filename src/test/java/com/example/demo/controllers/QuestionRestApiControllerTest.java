@@ -26,7 +26,7 @@ import com.example.demo.repositories.QuizRepository;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class QuestionRestApiController {
+public class QuestionRestApiControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

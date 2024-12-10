@@ -32,7 +32,7 @@ public class Review {
     @Max(value = 5, message = "Rating must not exceed 5")
     private Integer rating;
 
-    @Column(name = "created_date", updatable = false)
+    @Column(name = "created_date", updatable = false, nullable = true)
     private LocalDateTime createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,7 +40,8 @@ public class Review {
     @JsonBackReference(value = "quiz-review")
     private Quiz quiz;
 
-    // You might want to add a user field later when implementing user authentication
+    // You might want to add a user field later when implementing user
+    // authentication
     private String studentName;
 
     // Default constructor
