@@ -26,7 +26,7 @@ import com.example.demo.repositories.QuizRepository;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class RestApiControllerTest {
+public class QuestionRestApiController {
 
     @Autowired
     private MockMvc mockMvc;
@@ -48,50 +48,6 @@ public class RestApiControllerTest {
     }
 
     @Test
-    void getAllQuizzesReturnsEmptyListWhenNoQuizzesExist() throws Exception {
-        mockMvc.perform(get("/api/quizzes?status=PUBLISHED"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(0)));
-    }
-
-    @Test
-    void getAllQuizzesReturnsListOfQuizzesWhenPublishedQuizzesExist() throws Exception {
-        Quiz quiz1 = new Quiz();
-        quiz1.setTitle("Published Quiz 1");
-        quiz1.setStatus("PUBLISHED");
-        
-        Quiz quiz2 = new Quiz();
-        quiz2.setTitle("Published Quiz 2");
-        quiz2.setStatus("PUBLISHED");
-        
-        quizRepository.saveAll(List.of(quiz1, quiz2));
-
-        mockMvc.perform(get("/api/quizzes?status=PUBLISHED"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(2)))
-            .andExpect(jsonPath("$[0].title", is("Published Quiz 1")))
-            .andExpect(jsonPath("$[1].title", is("Published Quiz 2")));
-    }
-
-    @Test
-    void getAllQuizzesDoesNotReturnUnpublishedQuizzes() throws Exception {
-        Quiz publishedQuiz = new Quiz();
-        publishedQuiz.setTitle("Published Quiz");
-        publishedQuiz.setStatus("PUBLISHED");
-        
-        Quiz draftQuiz = new Quiz();
-        draftQuiz.setTitle("Draft Quiz");
-        draftQuiz.setStatus("DRAFT");
-        
-        quizRepository.saveAll(List.of(publishedQuiz, draftQuiz));
-
-        mockMvc.perform(get("/api/quizzes?status=PUBLISHED"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(1)))
-            .andExpect(jsonPath("$[0].title", is("Published Quiz")));
-    }
-
-    @Test
     void getQuestionsByQuizIdReturnsEmptyListWhenQuizDoesNotHaveQuestions() throws Exception {
         Quiz quiz = new Quiz();
         quiz.setTitle("Quiz without questions");
@@ -99,8 +55,8 @@ public class RestApiControllerTest {
         Quiz savedQuiz = quizRepository.save(quiz);
 
         mockMvc.perform(get("/api/quizzes/" + savedQuiz.getId() + "/questions"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(0)));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
     }
 
     @Test
@@ -129,18 +85,18 @@ public class RestApiControllerTest {
         answerRepository.saveAll(List.of(answer1, answer2));
 
         mockMvc.perform(get("/api/quizzes/" + savedQuiz.getId() + "/questions"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$", hasSize(1)))
-            .andExpect(jsonPath("$[0].q_description", is("Test question")))
-            .andExpect(jsonPath("$[0].answers", hasSize(2)))
-            .andExpect(jsonPath("$[0].answers[0].option", is("Option 1")))
-            .andExpect(jsonPath("$[0].answers[1].option", is("Option 2")));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].q_description", is("Test question")))
+                .andExpect(jsonPath("$[0].answers", hasSize(2)))
+                .andExpect(jsonPath("$[0].answers[0].option", is("Option 1")))
+                .andExpect(jsonPath("$[0].answers[1].option", is("Option 2")));
     }
 
     @Test
     void getQuestionsByQuizIdReturnsErrorWhenQuizDoesNotExist() throws Exception {
         mockMvc.perform(get("/api/quizzes/999/questions"))
-            .andExpect(status().isNotFound())
-            .andExpect(content().string(""));
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(""));
     }
 }
