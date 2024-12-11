@@ -132,7 +132,7 @@ public class RestApiController {
     public ResponseEntity<Question> getQuestionById(@PathVariable Long id) {
         return ResponseEntity.ok(questionService.findQuestionById(id));
     }
-
+    // Handle exceptions consistently and provide detailed error responses.
     @Tag(name = "Question")
     @Operation(summary = "Get questions by quiz", description = "Retrieve all questions for a specific quiz")
     @GetMapping("/quizzes/{quizId}/questions")
