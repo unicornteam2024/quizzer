@@ -69,7 +69,7 @@ public class RestApiController {
         errorResponse.put("error", e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-
+    // Add logging and standardize the error response.
     @ExceptionHandler(RuntimeException.class)
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException e) {
