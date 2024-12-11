@@ -8,7 +8,8 @@ import java.util.List;
 
 @Service
 public class CategoryService {
-
+    
+    // Consider using custom exceptions, adding logging, and ensuring transactional integrity.
     @Autowired
     private CategoryRepository categoryRepository;
 
