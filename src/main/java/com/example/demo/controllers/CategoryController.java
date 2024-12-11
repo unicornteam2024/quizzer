@@ -21,7 +21,7 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
-
+    // Ensure proper validation and error handling for category retrieval and form display.
     @GetMapping("/add-category")
     public String showAddCategoryForm() {
         return "add-category";
