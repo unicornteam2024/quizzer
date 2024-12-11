@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 
 import Layout from "./components/Layout";
+import HomePage from "./pages/HomePage";
 import QuizList from "./pages/QuizList";
 import QuestionList from "./pages/QuestionList";
 import CategoryList from "./pages/CategoryList";
@@ -42,7 +43,7 @@ function App() {
         >
           <Layout>
             <Routes>
-              <Route path="/" element={<QuizList />} />
+              <Route path="/" element={<HomePage />} />
               <Route path="/quizzes" element={<QuizList />} />
               <Route path="/quizzes/:id/questions" element={<QuestionList />} />
               <Route path="/quizzes/:id/results" element={<QuizResults />} />
