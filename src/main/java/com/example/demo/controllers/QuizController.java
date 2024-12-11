@@ -68,7 +68,7 @@ public class QuizController {
         quizService.saveEditedQuiz(quiz);
         return "redirect:/quizzes";
     }
-
+    // Add error handling and user feedback for failed quiz deletion.
     @PostMapping("/quizzes/delete/{id}")
     public String deleteQuiz(@PathVariable Long id) {
         try {
