@@ -46,6 +46,7 @@ public class AnswerController {
         return "answers";
     }
 
+// Ensure proper error handling and validation for answer deletion.
     @RequestMapping(value = "/delete-answer/{quizId}/{questionId}/{answerId}", method = RequestMethod.POST)
     public String deleteAnswer(@PathVariable Long quizId,
                              @PathVariable Long questionId,
