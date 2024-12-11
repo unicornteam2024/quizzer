@@ -86,7 +86,7 @@ public class RestApiController {
             @Parameter(description = "Filter quizzes by status (ALL, PUBLISHED, DRAFT)") @RequestParam(required = false, defaultValue = "ALL") String status) {
         return ResponseEntity.ok(quizService.getQuizzesByStatus(status));
     }
-
+    // Ensure proper error handling for invalid or non-existent quiz IDs.
     @Tag(name = "Quiz")
     @Operation(summary = "Get quiz by ID", description = "Retrieve a specific quiz by its ID")
     @GetMapping("/quizzes/{id}")
