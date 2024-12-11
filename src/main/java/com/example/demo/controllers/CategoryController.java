@@ -61,6 +61,7 @@ public class CategoryController {
     // }
     // return "redirect:/categories";
     // }
+    // Consolidate exception handling and ensure proper logging.
     @PostMapping("/categories/delete/{id}")
     public String deleteCategory(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         try {
