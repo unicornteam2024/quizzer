@@ -80,6 +80,8 @@ public class QuizController {
         }
     }
     // Ensure proper validation for status parameter and handle potential empty results for quizzes.
+
+
     @GetMapping({ "/", "/quizzes" })
     public String listQuizzes(@RequestParam(required = false, defaultValue = "ALL") String status, Model model) {
         // Define the available statuses
